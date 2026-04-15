@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nc4c"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "cartopy>=0.25.0",
+    "matplotlib>=3.10.8",
+    "netcdf4>=1.7.4",
+    "scipy>=1.15.0",
+    "xarray>=2026.4.0",
+]
+
+[project.scripts]
+nc4c = "nc4c.__main__:main"
+
+[dependency-groups]
+dev = ["basedpyright>=1.10.0", "pytest>=8.0.0", "ruff>=0.9.0"]
+
+[tool.uv]
+# 把本项目本身也装进环境里
+package = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nc4c"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+# 开启所有核心规则：错误(E/F), 排序(I), 类型注释(ANN), 现代语法(UP), Bug 预防(B)
+select = ["E", "F", "I", "UP", "B", "ANN", "RUF", "PTH"]
+ignore = []
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.basedpyright]
+include = ["src"]
+exclude = ["tests"]
+    
+typeCheckingMode = "basic"
+pythonVersion = "3.12"
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportAttributeAccessIssue = false
+reportPrivateImportUsage = false
+reportUnknownVariableType = false
+reportUnknownArgumentType = false
+reportMissingTypeArgument = false
+reportAssignmentType = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"] # addopts = "-v"  # 开启详细模式 (Verbose)
+
