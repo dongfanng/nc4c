@@ -28,6 +28,7 @@ def read_netcdf(
         合并后的 xarray Dataset
     """
     datasets: list[xr.Dataset] = []
+    time_dim: str | None = None
 
     for file_path in file_paths:
         ds = xr.open_dataset(file_path)
@@ -41,12 +42,60 @@ def read_netcdf(
         if lon_range is not None and lat_range is not None:
             ds_subset = _crop_geographic(ds_subset, lon_range, lat_range)
 
+        if time_dim is None:
+            time_dim = _detect_time_dim(ds_subset)
+
         datasets.append(ds_subset)
 
-    combined = xr.concat(datasets, dim="time")
+    combined = xr.concat(datasets, dim=time_dim)
+    if time_dim != "time":
+        combined = combined.rename({time_dim: "time"})
+    combined = _normalize_coords(combined)
     combined = _replace_missing(combined, missing_value=missing_value)
 
     return combined
+
+
+_COORD_ALIASES: dict[str, str] = {
+    "longitude": "lon",
+    "latitude": "lat",
+    "valid_time": "time",
+    "time_counter": "time",
+    "forecast_time": "time",
+}
+
+
+def _normalize_coords(dataset: xr.Dataset) -> xr.Dataset:
+    """
+    标准化坐标名称和纬度顺序
+
+    将 longitude→lon, latitude→lat 等别名统一为标准名称
+    自动将纬度转换为升序排列
+
+    Args:
+        dataset: 输入数据集
+
+    Returns:
+        坐标名称标准化、纬度升序排列的数据集
+    """
+    rename_map: dict[str, str] = {}
+    for coord in dataset.coords:
+        coord_str = str(coord)
+        if coord_str in _COORD_ALIASES and coord_str != _COORD_ALIASES[coord_str]:
+            rename_map[coord_str] = _COORD_ALIASES[coord_str]
+    if rename_map:
+        dataset = dataset.rename(rename_map)
+
+    if "lat" in dataset.coords:
+        lat_vals = dataset.coords["lat"].values
+        if len(lat_vals) > 0 and lat_vals[0] > lat_vals[-1]:
+            dataset = dataset.isel(lat=slice(None, None, -1))
+    elif "latitude" in dataset.coords:
+        lat_vals = dataset.coords["latitude"].values
+        if len(lat_vals) > 0 and lat_vals[0] > lat_vals[-1]:
+            dataset = dataset.isel(latitude=slice(None, None, -1))
+
+    return dataset
 
 
 def _crop_geographic(
@@ -71,13 +120,42 @@ def _crop_geographic(
     if "lon" in dataset.coords:
         dataset = dataset.sel(lon=slice(lon_min, lon_max))
     if "lat" in dataset.coords:
-        dataset = dataset.sel(lat=slice(lat_min, lat_max))
+        lat_vals = dataset.coords["lat"].values
+        if len(lat_vals) > 1:
+            lat_ascending = lat_vals[0] < lat_vals[-1]
+            if lat_ascending:
+                dataset = dataset.sel(lat=slice(lat_min, lat_max))
+            else:
+                dataset = dataset.sel(lat=slice(lat_max, lat_min))
     if "latitude" in dataset.coords:
-        dataset = dataset.sel(latitude=slice(lat_min, lat_max))
+        lat_vals = dataset.coords["latitude"].values
+        if len(lat_vals) > 1:
+            lat_ascending = lat_vals[0] < lat_vals[-1]
+            if lat_ascending:
+                dataset = dataset.sel(latitude=slice(lat_min, lat_max))
+            else:
+                dataset = dataset.sel(latitude=slice(lat_max, lat_min))
     if "longitude" in dataset.coords:
         dataset = dataset.sel(longitude=slice(lon_min, lon_max))
 
     return dataset
+
+
+def _detect_time_dim(dataset: xr.Dataset) -> str:
+    """
+    检测时间维度名称
+
+    Args:
+        dataset: 输入数据集
+
+    Returns:
+        时间维度名称
+    """
+    common_time_names = ("time", "valid_time", "time_counter", "forecast_time")
+    for name in common_time_names:
+        if name in dataset.dims:
+            return name
+    raise ValueError(f"Cannot find time dimension in dataset. Available dims: {list(dataset.dims)}")
 
 
 def _replace_missing(

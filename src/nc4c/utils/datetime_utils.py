@@ -33,5 +33,7 @@ def format_timestamp_filename(
     hour_str, minute_str, second_str = time_part.split(":")
     second_str = second_str[:2]
 
-    filename = f"{year_str}{month_str}{day_str}{hour_str}{minute_str}{second_str}.{suffix}"
+    filename = (
+        f"{year_str}{month_str}{day_str}{hour_str}{minute_str}{second_str}.{suffix}"
+    )
     return base_dir / filename

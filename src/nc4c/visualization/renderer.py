@@ -80,7 +80,9 @@ def render_image(
     # 5. 根据 interpolate 参数决定是否上采样
     if interpolate:
         target_h, target_w = int(fig_height * dpi), int(fig_width * dpi)
-        zoom_factor = max(target_h / data_2d.sizes["lat"], target_w / data_2d.sizes["lon"])
+        zoom_factor = max(
+            target_h / data_2d.sizes["lat"], target_w / data_2d.sizes["lon"]
+        )
         data_display = np.asarray(scipy_zoom(data_2d.values, zoom=zoom_factor, order=1))
     else:
         data_display = data_2d.values

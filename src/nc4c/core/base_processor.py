@@ -16,37 +16,32 @@ class BaseDataProcessor(ABC):
     具体的处理器应继承此类并实现相应的抽象方法
     """
 
-    def __init__(self, config: dict | None = None) -> None:
+    def __init__(self, input_paths: list[str], output_dir: str) -> None:
         """
         初始化处理器
 
         Args:
-            config: 配置字典
+            input_paths: 输入文件路径列表
+            output_dir: 输出目录
         """
-        self.config = config or {}
+        self.input_paths = input_paths
+        self.output_dir = output_dir
 
-    def run(self, file_paths: list[str], output_dir: str) -> list[Path]:
+    def run(self) -> list[Path]:
         """
         执行标准处理流水线
-
-        Args:
-            file_paths: 输入文件路径列表
-            output_dir: 输出目录
 
         Returns:
             生成的输出文件路径列表
         """
-        data = self.load(file_paths)
+        data = self.load()
         data = self.process(data)
-        return self.save(data, output_dir)
+        return self.save(data, self.output_dir)
 
     @abstractmethod
-    def load(self, file_paths: list[str]) -> xr.Dataset:
+    def load(self) -> xr.Dataset:
         """
         加载数据
-
-        Args:
-            file_paths: 输入文件路径列表
 
         Returns:
             加载的数据集
