@@ -9,10 +9,10 @@ from nc4c.core import read_netcdf
 from nc4c.data_models import PM10_VARIABLES, calculate_pm10
 from nc4c.visualization import (
     create_colormap_and_norm,
-    generate_time_filename,
     get_colormap_config,
     render_image,
 )
+from nc4c.utils.datetime_utils import format_timestamp_filename
 
 
 def generate_pm10_images(
@@ -62,7 +62,7 @@ def generate_pm10_images(
 
     for time_idx in range(n_times):
         timestamp = pm10_data.coords["time"].values[time_idx]
-        output_file = generate_time_filename(output_path, timestamp)
+        output_file = format_timestamp_filename(output_path, timestamp, minute_offset=-30)
 
         render_image(
             data=pm10_data,
