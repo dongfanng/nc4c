@@ -4,13 +4,11 @@ from pathlib import Path
 
 import xarray as xr
 
-from nc4c import config
 from nc4c.core import BaseDataProcessor, read_netcdf
 from nc4c.data_models.pm10 import PM10_VARIABLES, calculate_pm10
 from nc4c.utils.datetime_utils import format_timestamp_filename
 from nc4c.visualization import (
     create_colormap_and_norm,
-    get_colormap_config,
     render_image,
 )
 
@@ -22,6 +20,7 @@ class PM10Processor(BaseDataProcessor):
         self,
         input_paths: list[str],
         output_dir: str,
+        gradient: list[tuple[float, str]],
         lon_range: tuple[float, float] | None = None,
         lat_range: tuple[float, float] | None = None,
     ) -> None:
@@ -31,12 +30,14 @@ class PM10Processor(BaseDataProcessor):
         Args:
             input_paths: 输入文件路径列表
             output_dir: 输出目录
+            gradient: 颜色渐变列表
             lon_range: 经度范围，None 时由渲染器自动从数据坐标确定
             lat_range: 纬度范围，None 时由渲染器自动从数据坐标确定
         """
         super().__init__(input_paths=input_paths, output_dir=output_dir)
         self.lon_range = lon_range
         self.lat_range = lat_range
+        self.gradient = gradient
 
     def get_required_variables(self) -> list[str]:
         """获取 PM10 计算所需的变量列表"""
@@ -69,10 +70,7 @@ class PM10Processor(BaseDataProcessor):
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
 
-        pm10_config = get_colormap_config("pm10")
-        if pm10_config is None:
-            raise ValueError("Colormap config 'pm10' not found")
-        colormap_obj, norm = create_colormap_and_norm(pm10_config)
+        colormap_obj, norm = create_colormap_and_norm(self.gradient)
 
         generated_files: list[Path] = []
         n_times = len(data.coords["time"])

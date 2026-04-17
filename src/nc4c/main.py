@@ -10,6 +10,7 @@ def main() -> None:
     pm10_task = PM10Processor(
         input_paths=cfg.pm10.data_files,
         output_dir=cfg.pm10.output_dir,
+        gradient=cfg.pm10.gradient,
         lon_range=cfg.geo.lon_range,
         lat_range=cfg.geo.lat_range,
     )
@@ -19,6 +20,7 @@ def main() -> None:
     temp_task = TemperatureProcessor(
         input_paths=cfg.t2m.data_files,
         output_dir=cfg.t2m.output_dir,
+        gradient=cfg.t2m.gradient,
         lon_range=cfg.geo.lon_range,
         lat_range=cfg.geo.lat_range,
     )

@@ -15,18 +15,51 @@ class GeographicConfig:
 
 @dataclass
 class PM10Config:
+    name: str = "pm10"
     data_files: list[str] = field(default_factory=lambda: [
         str(p) for p in sorted((DATA_DIR / "pm10_data").glob("*.nc"))
     ])
     output_dir: str = "output/pm10"
+    unit: str = "μg/m³"
+    gradient: list[tuple[int, str]] = field(default_factory=lambda: [
+        (0, "#3D82D4"),
+        (20, "#C8DDF6"),
+        (40, "#EDE787"),
+        (60, "#E8DC19"),
+        (80, "#EAB939"),
+        (100, "#E98F43"),
+        (120, "#E15E5D"),
+        (160, "#A31B56"),
+        (200, "#721638"),
+        (300, "#2B0001"),
+    ])
 
 
 @dataclass
 class T2MConfig:
+    name: str = "2m_temperature"
     data_files: list[str] = field(default_factory=lambda: [
         str(DATA_DIR / "raw_met_data" / "2m_temperature.nc"),
     ])
-    output_dir: str = "output/temperature"
+    output_dir: str = "output/2m_temperature"
+    unit: str = "°C"
+    gradient: list[tuple[int, str]] = field(default_factory=lambda: [
+(-40, "#E6E6E6"),
+        (-30, "#FFAAFF"),
+        (-20, "#910991"),
+        (-15, "#24186A"),
+        (-10, "#554EB1"),
+        (-5, "#3E79C6"),
+        (0, "#4BB698"),
+        (5, "#59D049"),
+        (10, "#BEE43D"),
+        (15, "#EBD735"),
+        (20, "#EAA43E"),
+        (25, "#E56D53"),
+        (30, "#BE3066"),
+        (40, "#6B1527"),
+        (50, "#2B0001"),
+    ])
 
 
 cfg = SimpleNamespace(

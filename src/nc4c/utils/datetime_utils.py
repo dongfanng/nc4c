@@ -23,7 +23,7 @@ def format_timestamp_filename(
         minute_offset: 分钟偏移量（默认 0，PM10 数据传入 -30）
 
     Returns:
-        格式为 YYYYMMDDHHMMSS.{suffix} 的文件名
+        格式为 YYYY-MM-DD_HH-MM-SS.{suffix} 的文件名
     """
     ts_utc8 = timestamp + np.timedelta64(utc_offset, "h")
     ts_offset = ts_utc8 + np.timedelta64(minute_offset, "m")
@@ -34,6 +34,6 @@ def format_timestamp_filename(
     second_str = second_str[:2]
 
     filename = (
-        f"{year_str}{month_str}{day_str}{hour_str}{minute_str}{second_str}.{suffix}"
+        f"{year_str}-{month_str}-{day_str}_{hour_str}-{minute_str}-{second_str}.{suffix}"
     )
     return base_dir / filename

@@ -98,10 +98,16 @@ def create_gradient_colors(
     color_array = np.zeros((n_colors, 4))
 
     for i in range(n_colors):
-        t = i / (n_colors - 1) * values[-1]
+        # 将索引 i (0 ~ n_colors-1) 映射到实际数值范围 (values[0] ~ values[-1])
+        # 例如 gradient=[(-40, "#a"), (0, "#b"), (50, "#c")] 时:
+        #   i=0   → t=-40  (最冷端)
+        #   i=128 → t=5    (中间位置)
+        #   i=255 → t=50   (最热端)
+        t = values[0] + (values[-1] - values[0]) * (i / (n_colors - 1))
 
         for j in range(len(values) - 1):
             if values[j] <= t <= values[j + 1]:
+                # 在当前区间内做线性插值
                 segment_range = values[j + 1] - values[j]
                 local_t = (t - values[j]) / segment_range
                 interp_color = interpolate_color(colors[j], colors[j + 1], local_t)

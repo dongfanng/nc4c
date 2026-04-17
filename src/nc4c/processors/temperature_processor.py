@@ -4,13 +4,11 @@ from pathlib import Path
 
 import xarray as xr
 
-from nc4c import config
 from nc4c.core import BaseDataProcessor, read_netcdf
 from nc4c.data_models.temperature import T2M_VARIABLE, calculate_2m_temperature
 from nc4c.utils.datetime_utils import format_timestamp_filename
 from nc4c.visualization import (
     create_colormap_and_norm,
-    get_colormap_config,
     render_image,
 )
 
@@ -22,6 +20,7 @@ class TemperatureProcessor(BaseDataProcessor):
         self,
         input_paths: list[str],
         output_dir: str,
+        gradient: list[tuple[float, str]],
         lon_range: tuple[float, float] | None = None,
         lat_range: tuple[float, float] | None = None,
     ) -> None:
@@ -31,12 +30,14 @@ class TemperatureProcessor(BaseDataProcessor):
         Args:
             input_paths: 输入文件路径列表
             output_dir: 输出目录
+            gradient: 颜色渐变列表
             lon_range: 经度范围，None 时由渲染器自动从数据坐标确定
             lat_range: 纬度范围，None 时由渲染器自动从数据坐标确定
         """
         super().__init__(input_paths=input_paths, output_dir=output_dir)
         self.lon_range = lon_range
         self.lat_range = lat_range
+        self.gradient = gradient
 
     def get_required_variables(self) -> list[str]:
         """获取所需变量列表"""
@@ -68,10 +69,7 @@ class TemperatureProcessor(BaseDataProcessor):
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
 
-        t2m_config = get_colormap_config("t2m")
-        if t2m_config is None:
-            raise ValueError("Colormap config 't2m' not found")
-        colormap_obj, norm = create_colormap_and_norm(t2m_config)
+        colormap_obj, norm = create_colormap_and_norm(self.gradient)
 
         generated_files: list[Path] = []
         n_times = len(data.coords["time"])
@@ -79,7 +77,7 @@ class TemperatureProcessor(BaseDataProcessor):
         for time_idx in range(n_times):
             timestamp = data.coords["time"].values[time_idx]
             output_file = format_timestamp_filename(
-                output_path, timestamp, minute_offset=-30
+                output_path, timestamp
             )
 
             render_image(
@@ -90,6 +88,7 @@ class TemperatureProcessor(BaseDataProcessor):
                 norm=norm,
                 lon_range=self.lon_range,
                 lat_range=self.lat_range,
+                interpolate=False,
             )
             generated_files.append(output_file)
 

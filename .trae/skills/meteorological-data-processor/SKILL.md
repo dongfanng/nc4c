@@ -120,8 +120,7 @@ Create `docs/[data_type].spec.md` (use Chinese):
 
 - **格式**: PNG images
 - **分辨率**: 1190×384 @ 96 DPI
-- **命名**: `YYYYMMDD_HHMM_[variable].png`
-```
+- **命名**: `YYYY-MM-DD_HH-MM-SS.png```
 
 ### Step 3: Implement Processor
 
@@ -133,9 +132,7 @@ src/nc4c/
 │   └── [data_type]_processor.py    # Processor class
 ├── data_models/
 │   └── [data_type].py              # Calculation logic
-├── visualization/
-│   └── colormap_configs.py         # Add colormap if needed
-└── config.py                       # Add DATA_FILES and OUTPUT_DIR
+└── config.py                       # gradient and data config
 ```
 
 #### 3.1 Data Model (`data_models/[data_type].py`)
@@ -180,11 +177,10 @@ from pathlib import Path
 
 import xarray as xr
 
-from nc4c.config import cfg
 from nc4c.core import BaseDataProcessor, read_netcdf
 from nc4c.data_models.[data_type] import calculate_[data_type], VARIABLE_NAME
 from nc4c.utils.datetime_utils import format_timestamp_filename
-from nc4c.visualization import create_colormap_and_norm, get_colormap_config, render_image
+from nc4c.visualization import create_colormap_and_norm, render_image
 
 
 class [DataType]Processor(BaseDataProcessor):
@@ -194,6 +190,7 @@ class [DataType]Processor(BaseDataProcessor):
         self,
         input_paths: list[str],
         output_dir: str,
+        gradient: list[tuple[float, str]],
         lon_range: tuple[float, float] | None = None,
         lat_range: tuple[float, float] | None = None,
     ) -> None:
@@ -203,12 +200,14 @@ class [DataType]Processor(BaseDataProcessor):
         Args:
             input_paths: Input file paths
             output_dir: Output directory
+            gradient: Color gradient list
             lon_range: Longitude range, None for auto-detect
             lat_range: Latitude range, None for auto-detect
         """
         super().__init__(input_paths=input_paths, output_dir=output_dir)
         self.lon_range = lon_range
         self.lat_range = lat_range
+        self.gradient = gradient
 
     def get_required_variables(self) -> list[str]:
         """Get required variable list"""
@@ -240,11 +239,7 @@ class [DataType]Processor(BaseDataProcessor):
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
 
-        config_name = "[data_type]"  # must match colormap_configs.py
-        cfg = get_colormap_config(config_name)
-        if cfg is None:
-            raise ValueError(f"Colormap config '{config_name}' not found")
-        colormap_obj, norm = create_colormap_and_norm(cfg)
+        colormap_obj, norm = create_colormap_and_norm(self.gradient)
 
         generated_files: list[Path] = []
         n_times = len(data.coords["time"])
@@ -267,39 +262,29 @@ class [DataType]Processor(BaseDataProcessor):
         return generated_files
 ```
 
-#### 3.3 Colormap Config (`visualization/colormap_configs.py`)
-
-Add entry to `COLORMAP_CONFIGS`:
-
-```python
-"[data_type]": ColormapConfig(
-    name="[colormap_name]",
-    colormap=ListedColormap([...]),  # or LinearSegmentedColormap
-    norm=Normalize(vmin=min_val, vmax=max_val),
-    units="[units]",
-    value_range=(min_val, max_val),
-),
-```
-
 ### Step 4: Update Config (`config.py`)
 
-Add a new dataclass in `config.py`:
+Add a new dataclass with `gradient` in `config.py`:
 
 ```python
 from dataclasses import dataclass, field
 
 @dataclass
 class [DataType]Config:
+    name: str = "[data_type]"
     data_files: list[str] = field(default_factory=lambda: [
         str(DATA_DIR / "[data_dir]" / "*.nc"),  # or specific file
     ])
     output_dir: str = "output/[data_type]"
+    unit: str = "[units]"
+    gradient: list[tuple[float, str]] = field(default_factory=lambda: [
+        (min_val, "#color1"),
+        (max_val, "#color2"),
+    ])
 
 # Register in the global config object
 cfg.[data_type] = [DataType]Config()
 ```
-
-**Important**: Use `from nc4c.config import cfg` in processor code, NOT `from nc4c import cfg` (to avoid circular import).
 
 ### Step 5: Register Processor (`processors/__init__.py`)
 
@@ -328,5 +313,4 @@ From the ERA5-Land dataset in `data/raw_met_data/`:
 
 - PM10 implementation: `src/nc4c/processors/pm10_processor.py`
 - PM10 data model: `src/nc4c/data_models/pm10.py`
-- Colormap configs: `src/nc4c/visualization/colormap_configs.py`
-- CDL examples: `data/raw_met_data_cdl/*.cdl`
+- Config: `src/nc4c/config.py`
