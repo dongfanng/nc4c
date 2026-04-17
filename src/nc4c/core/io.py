@@ -155,7 +155,9 @@ def _detect_time_dim(dataset: xr.Dataset) -> str:
     for name in common_time_names:
         if name in dataset.dims:
             return name
-    raise ValueError(f"Cannot find time dimension in dataset. Available dims: {list(dataset.dims)}")
+    raise ValueError(
+        f"Cannot find time dimension in dataset. Available dims: {list(dataset.dims)}"
+    )
 
 
 def _replace_missing(

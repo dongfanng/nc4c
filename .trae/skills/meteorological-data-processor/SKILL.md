@@ -54,6 +54,18 @@ if "longitude" in ds.coords:
 # 5. Check for GRIB/GEO metadata (ERA5-Land format)
 grib_lats = [k for k in ds.attrs if "latitude" in k.lower()]
 grib_lons = [k for k in ds.attrs if "longitude" in k.lower()]
+
+# 6. Analyze data range and distribution (CRITICAL for colormap)
+print(f"\nData range analysis:")
+print(f"  Raw Min: {float(var.min())} ({units})")
+print(f"  Raw Max: {float(var.max())} ({units})")
+print(f"  Raw Mean: {float(var.mean())} ({units})")
+
+# Check for negative values (common in evaporation/flux data)
+neg_count = (var.values < 0).sum()
+total_count = var.size
+if neg_count > 0:
+    print(f"  Negative values: {neg_count} / {total_count} ({100*neg_count/total_count:.1f}%)")
 ```
 
 **Example output for 2m_temperature.nc:**
@@ -78,12 +90,18 @@ dimensions = (168, 201, 621)  # (time, latitude, longitude)
 missing_value = nan  # or 3.4028234663852886E38
 lat_range = (33.0, 53.0)  # degrees_north
 lon_range = (73.0, 135.0)  # degrees_east
+
+# Data range:
+# Raw (K): 233.66 ~ 299.60
+# Converted (°C): -39.49 ~ 26.45
 ```
 
 **Alternative: ncdump command line:**
 ```bash
 ncdump -h data.nc  # print header only (like CDL)
 ```
+
+**Important: Save analysis results to `docs/[data_type]_spec.md`**
 
 ### Step 2: Write SPEC Document
 
@@ -96,9 +114,9 @@ Create `docs/[data_type].spec.md` (use Chinese):
 
 - **来源**: ERA5-Land / MERRA-2
 - **变量**: [short_name]
-- **长名称**: [long_name from CDL]
-- **单位**: [units]
-- **维度**: [dims]
+- **长名称**: [long_name from attrs]
+- **单位**: [units from attrs]
+- **维度**: [dims, e.g., (time, lat, lon)]
 
 ## 处理
 
@@ -106,21 +124,37 @@ Create `docs/[data_type].spec.md` (use Chinese):
 - **单位转换**: [如需要，e.g., K → °C = value - 273.15]
 - **缺失值处理**: [value → np.nan]
 
+## 数据分析
+
+```
+# 原始数据分析结果 (从 Step 1)
+<xarray.Dataset>
+  ...
+</xarray>
+
+# 数据范围:
+# 原始数据: [min] ~ [max] ([units])
+# 转换后: [converted_min] ~ [converted_max] ([target_units])
+# 负值比例: [percentage]% (如有)
+```
+
 ## 可视化
 
 - **色图**: [gradient name or custom]
-- **数值范围**: [min, max] or auto
+- **数值范围**: [min] ~ [max] (基于数据分析结果)
 - **颜色映射**:
 
-| 数值 | RGB | HEX |
-|------|-----|-----|
-| x    | (r,g,b) | #RRGGBB |
+| 数值 | HEX |
+|------|-----|
+| [v1] | #RRGGBB |
+| [v2] | #RRGGBB |
 
 ## 输出
 
 - **格式**: PNG images
 - **分辨率**: 1190×384 @ 96 DPI
-- **命名**: `YYYY-MM-DD_HH-MM-SS.png```
+- **命名**: `YYYY-MM-DD_HH-MM-SS.png`
+```
 
 ### Step 3: Implement Processor
 
@@ -204,10 +238,9 @@ class [DataType]Processor(BaseDataProcessor):
             lon_range: Longitude range, None for auto-detect
             lat_range: Latitude range, None for auto-detect
         """
-        super().__init__(input_paths=input_paths, output_dir=output_dir)
+        super().__init__(input_paths=input_paths, output_dir=output_dir, gradient=gradient)
         self.lon_range = lon_range
         self.lat_range = lat_range
-        self.gradient = gradient
 
     def get_required_variables(self) -> list[str]:
         """Get required variable list"""

@@ -1,110 +1,95 @@
-"""蒸发变量计算模块"""
+"""Potential Evaporation 计算模块"""
 
 import xarray as xr
 
+PEV_VARIABLE: tuple[str, ...] = ("pev",)
 
-def calculate_potential_evaporation(dataset: xr.Dataset) -> xr.DataArray:
+PEV_UNIT_CONVERT: float = 1000.0
+
+
+def calculate_evaporation(
+    dataset: xr.Dataset,
+    variables: tuple[str, ...] = PEV_VARIABLE,
+    unit_convert: float | None = None,
+) -> xr.DataArray:
     """
-    计算潜在蒸发量 (PEVAP)
+    计算潜在蒸发量 (Potential Evaporation)
 
     Args:
-        dataset: 包含 PEVAP 变量的数据集
+        dataset: 输入数据集
+        variables: 变量名列表
+        unit_convert: 单位转换系数 (m -> mm), 默认为 None
 
     Returns:
-        潜在蒸发量数据数组
+        蒸发量数据数组，单位 mm
     """
-    if "PEVAP" not in dataset:
-        msg = "Variable PEVAP not found in dataset"
-        raise ValueError(msg)
+    if unit_convert is None:
+        unit_convert = PEV_UNIT_CONVERT
 
-    result = xr.DataArray(
-        dataset["PEVAP"].values,
-        dims=dataset["PEVAP"].dims,
-        coords=dataset["PEVAP"].coords,
-    )
-
-    return result
+    return dataset[variables[0]] * unit_convert
 
 
-def calculate_evaporation(dataset: xr.Dataset) -> xr.DataArray:
+def calculate_potential_evaporation(
+    dataset: xr.Dataset,
+    variables: tuple[str, ...] = PEV_VARIABLE,
+    unit_convert: float | None = None,
+) -> xr.DataArray:
     """
-    计算冠层顶部蒸发 (EVEGET)
+    计算潜在蒸发量 (Potential Evaporation)
 
     Args:
-        dataset: 包含 EVEGET 变量的数据集
+        dataset: 输入数据集
+        variables: 变量名列表
+        unit_convert: 单位转换系数 (m -> mm), 默认为 None
 
     Returns:
-        冠层顶部蒸发数据数组
+        蒸发量数据数组，单位 mm
     """
-    if "EVEGET" not in dataset:
-        msg = "Variable EVEGET not found in dataset"
-        raise ValueError(msg)
+    if unit_convert is None:
+        unit_convert = PEV_UNIT_CONVERT
 
-    result = xr.DataArray(
-        dataset["EVEGET"].values,
-        dims=dataset["EVEGET"].dims,
-        coords=dataset["EVEGET"].coords,
-    )
-
-    return result
+    return dataset[variables[0]] * unit_convert
 
 
-def calculate_vegetation_transpiration(dataset: xr.Dataset) -> xr.DataArray:
+def calculate_total_evaporation(
+    dataset: xr.Dataset,
+    variables: tuple[str, ...] = PEV_VARIABLE,
+    unit_convert: float | None = None,
+) -> xr.DataArray:
     """
-    计算植被蒸腾蒸发 (ETRANS)
+    计算总蒸发量 (Total Evaporation)
 
     Args:
-        dataset: 包含 ETRANS 变量的数据集
+        dataset: 输入数据集
+        variables: 变量名列表
+        unit_convert: 单位转换系数 (m -> mm), 默认为 None
 
     Returns:
-        植被蒸腾蒸发数据数组
+        蒸发量数据数组，单位 mm
     """
-    if "ETRANS" not in dataset:
-        msg = "Variable ETRANS not found in dataset"
-        raise ValueError(msg)
+    if unit_convert is None:
+        unit_convert = PEV_UNIT_CONVERT
 
-    result = xr.DataArray(
-        dataset["ETRANS"].values,
-        dims=dataset["ETRANS"].dims,
-        coords=dataset["ETRANS"].coords,
-    )
-
-    return result
+    return dataset[variables[0]] * unit_convert
 
 
-def calculate_total_evaporation(dataset: xr.Dataset) -> xr.DataArray:
+def calculate_vegetation_transpiration(
+    dataset: xr.Dataset,
+    variables: tuple[str, ...] = PEV_VARIABLE,
+    unit_convert: float | None = None,
+) -> xr.DataArray:
     """
-    计算总蒸发量 (EVAP)
+    计算植被蒸腾量 (Vegetation Transpiration)
 
     Args:
-        dataset: 包含 EVAP 变量的数据集
+        dataset: 输入数据集
+        variables: 变量名列表
+        unit_convert: 单位转换系数 (m -> mm), 默认为 None
 
     Returns:
-        总蒸发量数据数组
+        蒸发量数据数组，单位 mm
     """
-    if "EVAP" not in dataset:
-        msg = "Variable EVAP not found in dataset"
-        raise ValueError(msg)
+    if unit_convert is None:
+        unit_convert = PEV_UNIT_CONVERT
 
-    result = xr.DataArray(
-        dataset["EVAP"].values,
-        dims=dataset["EVAP"].dims,
-        coords=dataset["EVAP"].coords,
-    )
-
-    return result
-
-
-def get_evaporation_required_variables() -> dict[str, str]:
-    """
-    获取蒸发变量计算所需的变量映射
-
-    Returns:
-        变量名映射字典
-    """
-    return {
-        "PEVAP": "潜在蒸发量",
-        "EVEGET": "冠层顶部蒸发",
-        "ETRANS": "植被蒸腾蒸发",
-        "EVAP": "总蒸发量",
-    }
+    return dataset[variables[0]] * unit_convert

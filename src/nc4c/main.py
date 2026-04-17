@@ -5,7 +5,7 @@ from nc4c.config import cfg
 
 def main() -> None:
     """使用默认配置运行"""
-    from nc4c.processors import PM10Processor, TemperatureProcessor
+    from nc4c.processors import EvaporationProcessor, PM10Processor, TemperatureProcessor
 
     pm10_task = PM10Processor(
         input_paths=cfg.pm10.data_files,
@@ -24,5 +24,15 @@ def main() -> None:
         lon_range=cfg.geo.lon_range,
         lat_range=cfg.geo.lat_range,
     )
-    generated = temp_task.run()
-    print(f"Generated {len(generated)} temperature images in {cfg.t2m.output_dir}")
+    # generated = temp_task.run()
+    # print(f"Generated {len(generated)} temperature images in {cfg.t2m.output_dir}")
+
+    evaporation_task = EvaporationProcessor(
+        input_paths=cfg.evaporation.data_files,
+        output_dir=cfg.evaporation.output_dir,
+        gradient=cfg.evaporation.gradient,
+        lon_range=cfg.geo.lon_range,
+        lat_range=cfg.geo.lat_range,
+    )
+    generated = evaporation_task.run()
+    print(f"Generated {len(generated)} evaporation images in {cfg.evaporation.output_dir}")

@@ -34,7 +34,9 @@ class PM10Processor(BaseDataProcessor):
             lon_range: 经度范围，None 时由渲染器自动从数据坐标确定
             lat_range: 纬度范围，None 时由渲染器自动从数据坐标确定
         """
-        super().__init__(input_paths=input_paths, output_dir=output_dir, gradient=gradient)
+        super().__init__(
+            input_paths=input_paths, output_dir=output_dir, gradient=gradient
+        )
         self.lon_range = lon_range
         self.lat_range = lat_range
 
