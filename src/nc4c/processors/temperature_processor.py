@@ -34,10 +34,9 @@ class TemperatureProcessor(BaseDataProcessor):
             lon_range: 经度范围，None 时由渲染器自动从数据坐标确定
             lat_range: 纬度范围，None 时由渲染器自动从数据坐标确定
         """
-        super().__init__(input_paths=input_paths, output_dir=output_dir)
+        super().__init__(input_paths=input_paths, output_dir=output_dir, gradient=gradient)
         self.lon_range = lon_range
         self.lat_range = lat_range
-        self.gradient = gradient
 
     def get_required_variables(self) -> list[str]:
         """获取所需变量列表"""
@@ -69,6 +68,7 @@ class TemperatureProcessor(BaseDataProcessor):
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
 
+        assert self.gradient is not None
         colormap_obj, norm = create_colormap_and_norm(self.gradient)
 
         generated_files: list[Path] = []

@@ -16,16 +16,23 @@ class BaseDataProcessor(ABC):
     具体的处理器应继承此类并实现相应的抽象方法
     """
 
-    def __init__(self, input_paths: list[str], output_dir: str) -> None:
+    def __init__(
+        self,
+        input_paths: list[str],
+        output_dir: str,
+        gradient: list[tuple[float, str]] | None = None,
+    ) -> None:
         """
         初始化处理器
 
         Args:
             input_paths: 输入文件路径列表
             output_dir: 输出目录
+            gradient: 颜色渐变列表，用于创建色图
         """
         self.input_paths = input_paths
         self.output_dir = output_dir
+        self.gradient = gradient
 
     def run(self) -> list[Path]:
         """
