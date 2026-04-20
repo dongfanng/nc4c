@@ -18,6 +18,7 @@ class PM10Processor(BaseDataProcessor):
 
     def __init__(
         self,
+        name: str,
         input_paths: list[str],
         output_dir: str,
         gradient: list[tuple[float, str]],
@@ -28,6 +29,7 @@ class PM10Processor(BaseDataProcessor):
         初始化 PM10 处理器
 
         Args:
+            name: 处理器名称
             input_paths: 输入文件路径列表
             output_dir: 输出目录
             gradient: 颜色渐变列表
@@ -35,7 +37,7 @@ class PM10Processor(BaseDataProcessor):
             lat_range: 纬度范围，None 时由渲染器自动从数据坐标确定
         """
         super().__init__(
-            input_paths=input_paths, output_dir=output_dir, gradient=gradient
+            name=name, input_paths=input_paths, output_dir=output_dir, gradient=gradient
         )
         self.lon_range = lon_range
         self.lat_range = lat_range
@@ -43,10 +45,6 @@ class PM10Processor(BaseDataProcessor):
     def get_required_variables(self) -> list[str]:
         """获取 PM10 计算所需的变量列表"""
         return list(PM10_VARIABLES)
-
-    def get_output_name(self) -> str:
-        """获取输出目录名称"""
-        return "pm10"
 
     def load(self) -> xr.Dataset:
         """加载 NetCDF 数据"""

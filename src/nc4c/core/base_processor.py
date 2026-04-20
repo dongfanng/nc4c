@@ -18,6 +18,7 @@ class BaseDataProcessor(ABC):
 
     def __init__(
         self,
+        name: str,
         input_paths: list[str],
         output_dir: str,
         gradient: list[tuple[float, str]] | None = None,
@@ -26,10 +27,12 @@ class BaseDataProcessor(ABC):
         初始化处理器
 
         Args:
+            name: 处理器名称
             input_paths: 输入文件路径列表
             output_dir: 输出目录
             gradient: 颜色渐变列表，用于创建色图
         """
+        self.name = name
         self.input_paths = input_paths
         self.output_dir = output_dir
         self.gradient = gradient
@@ -89,15 +92,5 @@ class BaseDataProcessor(ABC):
 
         Returns:
             变量名列表
-        """
-        ...
-
-    @abstractmethod
-    def get_output_name(self) -> str:
-        """
-        获取输出变量名
-
-        Returns:
-            输出变量名
         """
         ...

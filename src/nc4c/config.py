@@ -92,9 +92,26 @@ class PotentialEvaporationConfig:
     )
 
 
+@dataclass
+class WindConfig:
+    name: str = "10m_u_component_of_wind-10m_v_component_of_wind"
+    data_files: list[str] = field(
+        default_factory=lambda: [
+            str(
+                DATA_DIR
+                / "raw_met_data"
+                / "10m_u_component_of_wind 10m_v_component_of_wind.nc"
+            ),
+        ]
+    )
+    output_dir: str = "output/wind"
+    unit: str = "m/s"
+
+
 cfg = SimpleNamespace(
     geo=GeographicConfig(),
     pm10=PM10Config(),
     t2m=T2MConfig(),
     potential_evaporation=PotentialEvaporationConfig(),
+    wind=WindConfig(),
 )
