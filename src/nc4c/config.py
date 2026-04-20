@@ -71,24 +71,23 @@ class T2MConfig:
 
 
 @dataclass
-class EvaporationConfig:
-    name: str = "evaporation"
+class PotentialEvaporationConfig:
+    name: str = "potential_evaporation"
     data_files: list[str] = field(
         default_factory=lambda: [
             str(DATA_DIR / "evaporation_and_runoff" / "potential_evaporation.nc"),
         ]
     )
-    output_dir: str = "output/evaporation"
+    output_dir: str = "output/potential_evaporation"
     unit: str = "mm"
     gradient: list[tuple[int, str]] = field(
         default_factory=lambda: [
-            (-60, "#3D82D4"),
-            (-40, "#7AAFE7"),
-            (-20, "#C8DDF6"),
-            (-5, "#EDE787"),
-            (0, "#FFFFFF"),
-            (0.5, "#E8DC19"),
-            (1, "#EAB939"),
+            (-50, "#8c510a"),
+            (-25, "#dfc27d"),
+            (-5, "#f6e8c3"),
+            (0, "#f7f7f7"),
+            (0.5, "#c7eae5"),
+            (0.8, "#35978f"),
         ]
     )
 
@@ -97,5 +96,5 @@ cfg = SimpleNamespace(
     geo=GeographicConfig(),
     pm10=PM10Config(),
     t2m=T2MConfig(),
-    evaporation=EvaporationConfig(),
+    potential_evaporation=PotentialEvaporationConfig(),
 )

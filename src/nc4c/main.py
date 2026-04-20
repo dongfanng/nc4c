@@ -28,11 +28,11 @@ def main() -> None:
     # print(f"Generated {len(generated)} temperature images in {cfg.t2m.output_dir}")
 
     evaporation_task = EvaporationProcessor(
-        input_paths=cfg.evaporation.data_files,
-        output_dir=cfg.evaporation.output_dir,
-        gradient=cfg.evaporation.gradient,
+        input_paths=cfg.potential_evaporation.data_files,
+        output_dir=cfg.potential_evaporation.output_dir,
+        gradient=cfg.potential_evaporation.gradient,
         lon_range=cfg.geo.lon_range,
         lat_range=cfg.geo.lat_range,
     )
     generated = evaporation_task.run()
-    print(f"Generated {len(generated)} evaporation images in {cfg.evaporation.output_dir}")
+    print(f"Generated {len(generated)} evaporation images in {cfg.potential_evaporation.output_dir}")
