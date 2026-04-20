@@ -83,10 +83,7 @@ def _normalize_coords(dataset: xr.Dataset) -> xr.Dataset:
     }
     if rename_dict:
         dataset = dataset.rename(rename_dict)
-
-    existing_dims = [d for d in ["lon", "lat"] if d in dataset.dims]
-    if existing_dims:
-        dataset = dataset.sortby(existing_dims, ascending=True)
+    dataset = dataset.sortby(["lon", "lat"], ascending=True)
 
     if "lon" in dataset.coords:
         lon_vals = dataset.coords["lon"].values
