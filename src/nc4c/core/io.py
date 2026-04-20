@@ -51,7 +51,7 @@ def read_netcdf(
             time_dim = _detect_time_dim(ds_subset)
 
         datasets.append(ds_subset)
-
+    
     combined = xr.concat(datasets, dim=time_dim)
     if time_dim != "time":
         combined = combined.rename({time_dim: "time"})

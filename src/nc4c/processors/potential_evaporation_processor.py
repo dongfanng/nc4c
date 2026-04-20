@@ -5,12 +5,12 @@ from pathlib import Path
 import xarray as xr
 
 from nc4c.core import BaseDataProcessor, read_netcdf
-from nc4c.data_models.evaporation import PEV_VARIABLE, calculate_evaporation
+from nc4c.data_models.potential_evaporation import PEV_VARIABLE, calculate_evaporation
 from nc4c.utils.datetime_utils import format_timestamp_filename
 from nc4c.visualization import create_colormap_and_norm, render_image
 
 
-class EvaporationProcessor(BaseDataProcessor):
+class PotentialEvaporationProcessor(BaseDataProcessor):
     """Potential Evaporation 图像生成处理器"""
 
     def __init__(

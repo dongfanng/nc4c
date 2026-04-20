@@ -6,7 +6,7 @@ from nc4c.config import cfg
 def main() -> None:
     """使用默认配置运行"""
     from nc4c.processors import (
-        EvaporationProcessor,
+        PotentialEvaporationProcessor,
         PM10Processor,
         TemperatureProcessor,
         WindProcessor,
@@ -34,7 +34,7 @@ def main() -> None:
     # generated = temp_task.run()
     # print(f"Generated {len(generated)} temperature images in {cfg.t2m.output_dir}")
 
-    evaporation_task = EvaporationProcessor(
+    evaporation_task = PotentialEvaporationProcessor(
         name=cfg.potential_evaporation.name,
         input_paths=cfg.potential_evaporation.data_files,
         output_dir=cfg.potential_evaporation.output_dir,
