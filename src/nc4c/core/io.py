@@ -6,6 +6,11 @@ from typing import Any
 
 import xarray as xr
 
+_COORD_MAPPING: dict[str, list[str]] = {
+    "lon": ["longitude", "lng"],
+    "lat": ["latitude"],
+    "time": ["valid_time", "time_counter", "forecast_time"],
+}
 
 def read_netcdf(
     file_paths: list[str],
@@ -56,44 +61,40 @@ def read_netcdf(
     return combined
 
 
-_COORD_ALIASES: dict[str, str] = {
-    "longitude": "lon",
-    "latitude": "lat",
-    "valid_time": "time",
-    "time_counter": "time",
-    "forecast_time": "time",
-}
-
-
 def _normalize_coords(dataset: xr.Dataset) -> xr.Dataset:
     """
     标准化坐标名称和纬度顺序
 
     将 longitude→lon, latitude→lat 等别名统一为标准名称
-    自动将纬度转换为升序排列
+    自动将经纬度转换为升序排列
+    经度范围是[-180, 180]，纬度范围是[-90, 90]
 
     Args:
         dataset: 输入数据集
 
     Returns:
-        坐标名称标准化、纬度升序排列的数据集
+        坐标名称标准化、经纬度升序排列的数据集
     """
-    rename_map: dict[str, str] = {}
-    for coord in dataset.coords:
-        coord_str = str(coord)
-        if coord_str in _COORD_ALIASES and coord_str != _COORD_ALIASES[coord_str]:
-            rename_map[coord_str] = _COORD_ALIASES[coord_str]
-    if rename_map:
-        dataset = dataset.rename(rename_map)
+    rename_dict = {
+        alias: standard
+        for standard, aliases in _COORD_MAPPING.items()
+        for alias in aliases
+        if alias in dataset.coords
+    }
+    if rename_dict:
+        dataset = dataset.rename(rename_dict)
 
-    if "lat" in dataset.coords:
-        lat_vals = dataset.coords["lat"].values
-        if len(lat_vals) > 0 and lat_vals[0] > lat_vals[-1]:
-            dataset = dataset.isel(lat=slice(None, None, -1))
-    elif "latitude" in dataset.coords:
-        lat_vals = dataset.coords["latitude"].values
-        if len(lat_vals) > 0 and lat_vals[0] > lat_vals[-1]:
-            dataset = dataset.isel(latitude=slice(None, None, -1))
+    existing_dims = [d for d in ["lon", "lat"] if d in dataset.dims]
+    if existing_dims:
+        dataset = dataset.sortby(existing_dims, ascending=True)
+
+    if "lon" in dataset.coords:
+        lon_vals = dataset.coords["lon"].values
+        if len(lon_vals) > 0 and lon_vals[-1] > 180:
+            dataset = dataset.assign_coords(
+                lon=((dataset.coords["lon"].values - 180) % 360) - 180
+            )
+            dataset = dataset.sortby("lon")
 
     return dataset
 

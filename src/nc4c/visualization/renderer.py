@@ -96,7 +96,7 @@ def render_image(
     ax.imshow(
         data_display,
         extent=(*extent_lon, *extent_lat),
-        origin="lower",  # 由南向北递增
+        origin="lower",  # 由南向北递增，数组的第一行在底部
         cmap=colormap,
         norm=norm,
         alpha=alpha,  # 设置透明度
