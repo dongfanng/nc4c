@@ -166,7 +166,9 @@ class WindProcessor(BaseDataProcessor):
             )
 
             # 生成时间戳字符串（用于 JSON 内容）
-            output_file = format_timestamp_filename(output_path, timestamp, suffix="json")
+            output_file = format_timestamp_filename(
+                output_path, timestamp, suffix="json"
+            )
             ts_str = output_file.stem
             date_part, time_part = ts_str.split("_")
             year, month, day = date_part.split("-")
@@ -175,7 +177,7 @@ class WindProcessor(BaseDataProcessor):
 
             # 当前逐小数据单独切分为文件,refTime 为当前时间,UTC 时间
             ref_time = pd.Timestamp(timestamp).strftime("%Y-%m-%dT%H:%M:%S") + ".000Z"
-            
+
             # TODO 当前逐小数据单独切分为文件,forecastTime 为 1 小时
             forecast_time = 1
 

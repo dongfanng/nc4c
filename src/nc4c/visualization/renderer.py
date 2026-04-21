@@ -26,7 +26,6 @@ def render_image(
     lat_range: tuple[float, float] | None = None,
     draw_boundaries: bool = False,
     interpolate: bool = True,
-    alpha: float = 0.9,
 ) -> None:
     """
     渲染并保存单帧热力图
@@ -43,7 +42,6 @@ def render_image(
         lat_range: 纬度范围 (min, max)，未提供时使用 DataArray 坐标
         draw_boundaries: 是否绘制国境线与海岸线（默认 False）
         interpolate: 是否对原始数据进行双线性插值上采样（默认 True）
-        alpha: 图像透明度（0 完全透明，1 完全不透明，默认 0.1）
     """
     # 1. 取时间切片并获取 DataArray 坐标
     data_2d = data.isel(time=time_index)
@@ -93,13 +91,13 @@ def render_image(
         ax.add_feature(cfeature.COASTLINE, linewidth=0.5, edgecolor="gray")
 
     # 7. 将热力图数据映射到地理坐标
+    colormap.set_bad((0, 0, 0, 0))  # nan 值显示为完全透明
     ax.imshow(
         data_display,
         extent=(*extent_lon, *extent_lat),
         origin="lower",  # 由南向北递增，数组的第一行在底部
         cmap=colormap,
         norm=norm,
-        alpha=alpha,  # 设置透明度
         transform=ccrs.PlateCarree(),
     )
 

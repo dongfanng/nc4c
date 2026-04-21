@@ -1,4 +1,5 @@
 """数据模型模块"""
+
 from nc4c.data_models.pm10 import (
     PM10_UNIT_CONVERT,
     PM10_VARIABLES,

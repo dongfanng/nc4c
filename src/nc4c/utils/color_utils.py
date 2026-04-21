@@ -3,21 +3,28 @@
 import numpy as np
 
 
-def hex_to_rgb(hex_color: str) -> tuple[int, int, int]:
+def hex_to_rgba(hex_color: str) -> tuple[int, int, int, int]:
     """
-    将十六进制颜色转换为 RGB 元组
+    将十六进制颜色转换为 RGBA 元组
 
     Args:
-        hex_color: 十六进制颜色字符串, 如 #FF0000
+        hex_color: 十六进制颜色字符串, 如 #FF0000 (6位) 或 #FF0000FF (8位)
 
     Returns:
-        RGB 元组, 如 (255, 0, 0)
+        RGBA 元组, 如 (255, 0, 0, 255)
     """
     hex_color = hex_color.lstrip("#")
-    r = int(hex_color[0:2], 16)
-    g = int(hex_color[2:4], 16)
-    b = int(hex_color[4:6], 16)
-    return (r, g, b)
+    if len(hex_color) == 6:
+        r = int(hex_color[0:2], 16)
+        g = int(hex_color[2:4], 16)
+        b = int(hex_color[4:6], 16)
+        a = 255
+    else:
+        r = int(hex_color[0:2], 16)
+        g = int(hex_color[2:4], 16)
+        b = int(hex_color[4:6], 16)
+        a = int(hex_color[6:8], 16)
+    return (r, g, b, a)
 
 
 def rgb_to_hex(rgb: tuple[int, int, int]) -> str:
@@ -49,30 +56,15 @@ def interpolate_color(
     Returns:
         插值后的十六进制颜色
     """
-    rgb1 = hex_to_rgb(color1)
-    rgb2 = hex_to_rgb(color2)
+    c1_rgba = hex_to_rgba(color1)
+    c2_rgba = hex_to_rgba(color2)
 
-    r = int(rgb1[0] + (rgb2[0] - rgb1[0]) * factor)
-    g = int(rgb1[1] + (rgb2[1] - rgb1[1]) * factor)
-    b = int(rgb1[2] + (rgb2[2] - rgb1[2]) * factor)
-    rgb: tuple[int, int, int] = (r, g, b)
+    r = int(c1_rgba[0] + (c2_rgba[0] - c1_rgba[0]) * factor)
+    g = int(c1_rgba[1] + (c2_rgba[1] - c1_rgba[1]) * factor)
+    b = int(c1_rgba[2] + (c2_rgba[2] - c1_rgba[2]) * factor)
+    a = int(c1_rgba[3] + (c2_rgba[3] - c1_rgba[3]) * factor)
 
-    return rgb_to_hex(rgb)
-
-
-def hex_to_rgba(hex_color: str, alpha: float = 1.0) -> tuple[int, int, int, float]:
-    """
-    将十六进制颜色转换为 RGBA 元组
-
-    Args:
-        hex_color: 十六进制颜色字符串
-        alpha: 透明度, 0.0-1.0
-
-    Returns:
-        RGBA 元组
-    """
-    rgb = hex_to_rgb(hex_color)
-    return (*rgb, alpha)
+    return "#{:02X}{:02X}{:02X}{:02X}".format(r, g, b, a)
 
 
 def create_gradient_colors(
@@ -112,7 +104,7 @@ def create_gradient_colors(
                 local_t = (t - values[j]) / segment_range
                 interp_color = interpolate_color(colors[j], colors[j + 1], local_t)
                 r, g, b, a = hex_to_rgba(interp_color)
-                color_array[i] = (r / 255.0, g / 255.0, b / 255.0, a)
+                color_array[i] = (r / 255.0, g / 255.0, b / 255.0, a / 255.0)
                 break
 
     return color_array

@@ -1,17 +1,20 @@
-"""Potential Evaporation 数据处理器"""
+"""冠层顶部蒸发数据处理器"""
 
 from pathlib import Path
 
 import xarray as xr
 
 from nc4c.core import BaseDataProcessor, read_netcdf
-from nc4c.data_models.potential_evaporation import PEV_VARIABLE, calculate_evaporation
+from nc4c.data_models.evaporation_canopy import (
+    VARIABLE_NAME,
+    calculate_evaporation,
+)
 from nc4c.utils.datetime_utils import format_timestamp_filename
 from nc4c.visualization import create_colormap_and_norm, render_image
 
 
-class PotentialEvaporationProcessor(BaseDataProcessor):
-    """Potential Evaporation 图像生成处理器"""
+class EvaporationCanopyProcessor(BaseDataProcessor):
+    """冠层顶部蒸发图像生成处理器"""
 
     def __init__(
         self,
@@ -23,7 +26,7 @@ class PotentialEvaporationProcessor(BaseDataProcessor):
         lat_range: tuple[float, float] | None = None,
     ) -> None:
         """
-        初始化蒸发量处理器
+        初始化冠层顶部蒸发处理器
 
         Args:
             name: 处理器名称
@@ -41,7 +44,7 @@ class PotentialEvaporationProcessor(BaseDataProcessor):
 
     def get_required_variables(self) -> list[str]:
         """获取所需变量列表"""
-        return list(PEV_VARIABLE)
+        return list(VARIABLE_NAME)
 
     def load(self) -> xr.Dataset:
         """加载 NetCDF 数据"""
@@ -54,14 +57,14 @@ class PotentialEvaporationProcessor(BaseDataProcessor):
         )
 
     def process(self, dataset: xr.Dataset) -> xr.DataArray:
-        """计算蒸发量 (m → mm)"""
+        """计算冠层顶部蒸发 (m → mm)"""
         return calculate_evaporation(
             dataset=dataset,
-            variables=PEV_VARIABLE,
+            variables=VARIABLE_NAME,
         )
 
     def save(self, data: xr.DataArray, output_dir: str) -> list[Path]:
-        """生成蒸发量图像"""
+        """生成冠层顶部蒸发图像"""
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
 
@@ -73,9 +76,7 @@ class PotentialEvaporationProcessor(BaseDataProcessor):
 
         for time_idx in range(n_times):
             timestamp = data.coords["time"].values[time_idx]
-            output_file = format_timestamp_filename(
-                output_path, timestamp
-            )
+            output_file = format_timestamp_filename(output_path, timestamp)
 
             render_image(
                 data=data,

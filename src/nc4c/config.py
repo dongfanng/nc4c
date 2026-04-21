@@ -82,12 +82,87 @@ class PotentialEvaporationConfig:
     unit: str = "mm"
     gradient: list[tuple[int, str]] = field(
         default_factory=lambda: [
-            (-50, "#8c510a"),
-            (-25, "#dfc27d"),
-            (-5, "#f6e8c3"),
-            (0, "#f7f7f7"),
-            (0.5, "#c7eae5"),
+            (-6, "#8c510a"),
+            (-2, "#d8b365"),
+            (-0.1, "#f6e8c3"),
+            (0, "#00000000"),
+            (0.001, "#c7eae5"),
             (0.8, "#35978f"),
+        ]
+    )
+
+
+@dataclass
+class EvaporationCanopyConfig:
+    name: str = "evaporation_from_the_top_of_canopy"
+    data_files: list[str] = field(
+        default_factory=lambda: [
+            str(
+                DATA_DIR
+                / "evaporation_and_runoff"
+                / "evaporation_from_the_top_of_canopy.nc"
+            ),
+        ]
+    )
+    output_dir: str = "output/evaporation_canopy"
+    unit: str = "mm"
+    gradient: list[tuple[int, str]] = field(
+        default_factory=lambda: [
+            (-0.5, "#8c510a"),
+            (-0.1, "#d8b365"),
+            (-0.001, "#f6e8c3"),
+            (0, "#00000000"),
+            (0.001, "#c7eae5"),
+            (0.01, "#35978f"),
+        ]
+    )
+
+
+@dataclass
+class VegetationTranspirationConfig:
+    name: str = "evaporation_from_vegetation_transpiration"
+    data_files: list[str] = field(
+        default_factory=lambda: [
+            str(
+                DATA_DIR
+                / "evaporation_and_runoff"
+                / "evaporation_from_vegetation_transpiration.nc"
+            ),
+        ]
+    )
+    output_dir: str = "output/vegetation_transpiration"
+    unit: str = "mm"
+    gradient: list[tuple[int, str]] = field(
+        default_factory=lambda: [
+            (-5, "#8c510a"),
+            (-2.5, "#d8b365"),
+            (-0.5, "#f6e8c3"),
+            (-0.00001, "#00000000"),
+            (0.00001, "#00000000"),
+            (2, "#c7eae5"),
+            (5, "#35978f"),
+        ]
+    )
+
+
+@dataclass
+class TotalEvaporationConfig:
+    name: str = "total_evaporation"
+    data_files: list[str] = field(
+        default_factory=lambda: [
+            str(DATA_DIR / "evaporation_and_runoff" / "total_evaporation.nc"),
+        ]
+    )
+    output_dir: str = "output/total_evaporation"
+    unit: str = "mm"
+    gradient: list[tuple[int, str]] = field(
+        default_factory=lambda: [
+            (-1.5, "#8c510a"),
+            (-0.3, "#d8b365"),
+            (-0.01, "#f6e8c3"),
+            (0, "#00000000"),
+            (0.005, "#c7eae5"),
+            (1.8, "#35978f"),
         ]
     )
 
@@ -113,5 +188,8 @@ cfg = SimpleNamespace(
     pm10=PM10Config(),
     t2m=T2MConfig(),
     potential_evaporation=PotentialEvaporationConfig(),
+    evaporation_canopy=EvaporationCanopyConfig(),
+    vegetation_transpiration=VegetationTranspirationConfig(),
+    total_evaporation=TotalEvaporationConfig(),
     wind=WindConfig(),
 )

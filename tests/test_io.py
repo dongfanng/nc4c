@@ -9,7 +9,9 @@ from nc4c.core.io import read_netcdf
 
 
 DATA_DIR = Path(__file__).parent.parent / "data"
-WIND_FILE = DATA_DIR / "raw_met_data" / "10m_u_component_of_wind 10m_v_component_of_wind.nc"
+WIND_FILE = (
+    DATA_DIR / "raw_met_data" / "10m_u_component_of_wind 10m_v_component_of_wind.nc"
+)
 
 
 def test_read_wind_uv_preserves_coords_and_values() -> None:
@@ -27,7 +29,6 @@ def test_read_wind_uv_preserves_coords_and_values() -> None:
     # 第0个时间步、第0个纬度、前10个经度值
     print(f"original_u10[0, :5, :10]:\n{original_u10[0, :5, :10]}")
 
-    
     # lat_ascending = original_lat[0] < original_lat[-1]
     # if not lat_ascending:
     #     original_lat = original_lat[::-1]

@@ -12,6 +12,7 @@ _COORD_MAPPING: dict[str, list[str]] = {
     "time": ["valid_time", "time_counter", "forecast_time"],
 }
 
+
 def read_netcdf(
     file_paths: list[str],
     variables: list[str] | None = None,
@@ -51,7 +52,7 @@ def read_netcdf(
             time_dim = _detect_time_dim(ds_subset)
 
         datasets.append(ds_subset)
-    
+
     combined = xr.concat(datasets, dim=time_dim)
     if time_dim != "time":
         combined = combined.rename({time_dim: "time"})
@@ -172,7 +173,7 @@ def _replace_missing(
     Returns:
         替换后的数据集
     """
-    return dataset.where(dataset != missing_value)
+    return dataset.where(dataset != missing_value)  # 缺失值 → nan
 
 
 def get_time_range(dataset: xr.Dataset) -> tuple[Any, Any]:

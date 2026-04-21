@@ -68,6 +68,63 @@ if neg_count > 0:
     print(f"  Negative values: {neg_count} / {total_count} ({100*neg_count/total_count:.1f}%)")
 ```
 
+**IMPORTANT: For colormap design, also analyze data distribution statistics:**
+```python
+import numpy as np
+
+flat = var.values.flatten()
+flat = flat[~np.isnan(flat)]  # exclude nan
+
+# Basic statistics
+print(f"\nStatistics ({units}):")
+print(f"  Min: {np.min(flat):.6f}")
+print(f"  Max: {np.max(flat):.6f}")
+print(f"  Mean: {np.mean(flat):.6f}")
+print(f"  Median: {np.median(flat):.6f}")
+print(f"  Std: {np.std(flat):.6f}")
+
+# Percentiles (CRITICAL for colormap thresholds)
+print(f"\nPercentiles:")
+for p in [1, 5, 10, 25, 50, 75, 90, 95, 99]:
+    print(f"  P{p}: {np.percentile(flat, p):.6f}")
+
+# Value distribution near zero (for evaporation/flux data)
+print(f"\nValue distribution near zero:")
+for threshold in [0, 0.0001, 0.001, 0.01, 0.1]:
+    count_less = np.sum(np.abs(flat) < threshold)
+    print(f"  |value| < {threshold}: {count_less} ({100*count_less/len(flat):.2f}%)")
+```
+
+**Example output for evaporation data:**
+```
+Statistics (mm):
+  Min: -10.2217
+  Max: 0.1915
+  Mean: -0.0239
+  Median: -0.0001
+  Std: 0.1054
+
+Percentiles:
+  P1: -0.5056
+  P5: -0.1399
+  P10: -0.0322
+  P25: -0.0013
+  P50: -0.0001
+  P75: 0.0000
+  P90: 0.0000
+  P95: 0.0001
+  P99: 0.0107
+
+Value distribution near zero:
+  |value| < 0.001: 71.62%
+  |value| < 0.01: 84.96%
+```
+
+**Use these statistics to design colormap:**
+- **For skewed data**: Set color stops at percentiles (P10, P25, P75, P90)
+- **For values near zero**: Use narrow transparent zone like `(-0.001, "#00000000"), (0.001, "#00000000")`
+- **Never use raw min/max** for colormap range unless data is uniformly distributed
+
 **Example output for 2m_temperature.nc:**
 ```python
 <xarray.Dataset>
@@ -101,7 +158,7 @@ lon_range = (73.0, 135.0)  # degrees_east
 ncdump -h data.nc  # print header only (like CDL)
 ```
 
-**Important: Save analysis results to `docs/[data_type]_spec.md`**
+**Important: Save analysis results to `docs/[data_type].spec.md`**
 
 ### Step 2: Write SPEC Document
 
@@ -279,7 +336,7 @@ class [DataType]Processor(BaseDataProcessor):
 
         for time_idx in range(n_times):
             timestamp = data.coords["time"].values[time_idx]
-            output_file = format_timestamp_filename(output_path, timestamp, minute_offset=-30)
+            output_file = format_timestamp_filename(output_path, timestamp)
 
             render_image(
                 data=data,
