@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 import xarray as xr
 
 from nc4c.core import BaseDataProcessor, read_netcdf
@@ -20,6 +21,47 @@ def _replace_missing_values(data: list) -> list:
         else:
             result.append(val)
     return result
+
+
+def _apply_grib_scan_order(data: xr.DataArray) -> xr.DataArray:
+    """
+    根据 GRIB 扫描标志重排风场数据
+
+    GRIB_iScansNegatively = 0: 经度方向递增（从西向东）
+    GRIB_jScansPositively = 0: 纬度方向递减（从北向南）
+    GRIB_jPointsAreConsecutive = 0: 存储顺序为行优先（经度变化最快）
+
+    Returns:
+        按照 GRIB 元数据描述的扫描顺序重排后的数据
+    """
+    lat_vals = data.coords["lat"].values
+    lon_vals = data.coords["lon"].values
+
+    lat_ascending = lat_vals[0] < lat_vals[-1]
+    lon_ascending = lon_vals[0] < lon_vals[-1]
+
+    j_scans_positively = data.attrs.get("GRIB_jScansPositively", None)
+    i_scans_negatively = data.attrs.get("GRIB_iScansNegatively", None)
+
+    # GRIB_jScansPositively = 0 表示纬度从北向南递减（53→33）
+    # 如果当前坐标是递增的（33→53），需要反转以匹配 GRIB 描述
+    if j_scans_positively == 0 and lat_ascending:
+        data = data.isel(lat=slice(None, None, -1))
+    # GRIB_jScansPositively = 1 表示纬度从南向北递增（33→53）
+    # 如果当前坐标是递减的（53→33），需要反转以匹配 GRIB 描述
+    elif j_scans_positively == 1 and not lat_ascending:
+        data = data.isel(lat=slice(None, None, -1))
+
+    # GRIB_iScansNegatively = 0 表示经度从西向东递增（73→135）
+    # 如果当前坐标是递减的（135→73），需要反转以匹配 GRIB 描述
+    if i_scans_negatively == 0 and not lon_ascending:
+        data = data.isel(lon=slice(None, None, -1))
+    # GRIB_iScansNegatively = 1 表示经度从东向西递减（135→73）
+    # 如果当前坐标是递增的（73→135），需要反转以匹配 GRIB 描述
+    elif i_scans_negatively == 1 and lon_ascending:
+        data = data.isel(lon=slice(None, None, -1))
+
+    return data
 
 
 class WindProcessor(BaseDataProcessor):
@@ -67,7 +109,10 @@ class WindProcessor(BaseDataProcessor):
 
     def process(self, dataset: xr.Dataset) -> tuple[xr.DataArray, xr.DataArray]:
         """获取U和V风速分量"""
-        return get_u_v_arrays(dataset=dataset)
+        u_data, v_data = get_u_v_arrays(dataset=dataset)
+        u_data = _apply_grib_scan_order(u_data)
+        v_data = _apply_grib_scan_order(v_data)
+        return u_data, v_data
 
     def save(
         self,
@@ -99,6 +144,14 @@ class WindProcessor(BaseDataProcessor):
             lon_vals = np.round(u_data.coords["lon"].values, 1)
             lat_vals = np.round(u_data.coords["lat"].values, 1)
 
+            u_attrs = u_data.attrs
+            nx = int(u_attrs["GRIB_Nx"])
+            ny = int(u_attrs["GRIB_Ny"])
+            lo1 = float(u_attrs["GRIB_longitudeOfFirstGridPointInDegrees"])
+            la1 = float(u_attrs["GRIB_latitudeOfFirstGridPointInDegrees"])
+            dx = float(u_attrs["GRIB_iDirectionIncrementInDegrees"])
+            dy = float(u_attrs["GRIB_jDirectionIncrementInDegrees"])
+
             u_slice = u_data.isel(time=time_idx).values
             v_slice = v_data.isel(time=time_idx).values
 
@@ -120,7 +173,23 @@ class WindProcessor(BaseDataProcessor):
             hour, minute, second = time_part.split("-")
             time_str = f"{year}.{month}.{day} {hour}:{minute}:{second}"
 
+            # 当前逐小数据单独切分为文件,refTime 为当前时间,UTC 时间
+            ref_time = pd.Timestamp(timestamp).strftime("%Y-%m-%dT%H:%M:%S") + ".000Z"
+            
+            # TODO 当前逐小数据单独切分为文件,forecastTime 为 1 小时
+            forecast_time = 1
+
             wind_json = {
+                "header": {
+                    "dx": round(dx, 7),
+                    "dy": round(dy, 7),
+                    "forecastTime": forecast_time,
+                    "la1": la1,
+                    "lo1": lo1,
+                    "nx": nx,
+                    "ny": ny,
+                    "refTime": ref_time,
+                },
                 "time": time_str,
                 "longitude": lon_vals.tolist(),
                 "latitude": lat_vals.tolist(),
