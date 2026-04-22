@@ -28,6 +28,7 @@ def main() -> None:
         TotalEvaporationProcessor,
         VegetationTranspirationProcessor,
         WindProcessor,
+        SoilTypeProcessor,
     )
 
     processor_map = {
@@ -39,8 +40,9 @@ def main() -> None:
         # "total_evaporation": TotalEvaporationProcessor,
         # "wind": WindProcessor,
         # "latent_heat_flux": SurfaceLatentHeatFluxProcessor,
-        "net_solar_radiation": SurfaceNetSolarRadiationProcessor,
-        "sensible_heat_flux": SurfaceSensibleHeatFluxProcessor,
+        # "net_solar_radiation": SurfaceNetSolarRadiationProcessor,
+        # "sensible_heat_flux": SurfaceSensibleHeatFluxProcessor,
+        "soil_type": SoilTypeProcessor,
     }
 
     total_processors = len(processor_map)

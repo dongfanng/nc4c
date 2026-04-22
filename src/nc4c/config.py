@@ -176,6 +176,22 @@ SENSIBLE_HEAT_FLUX = {
     ],
 }
 
+SOIL_TYPE = {
+    "name": "soil_type",
+    "data_files": [str(DATA_DIR / "invariant_data" / "soil_type.nc")],
+    "output_dir": "output/soil_type",
+    "gradient": [
+        # ECMWF IFS Soil Type (FAO soil texture): 0=No data/Water, 1=Coarse(sand),
+        # 2=Medium(loam), 3=Medium-fine, 4=Fine(clay), 6=Organic
+        (0, "#C9D8E8"),  # Water - 海洋/湖泊 (浅蓝灰)
+        (1, "#F5DEB3"),  # Coarse - 砂土，保水性低 (浅黄)
+        (2, "#C8A96E"),  # Medium - 壤土，最主要类型 (棕黄)
+        (3, "#A0785A"),  # Medium-fine - 赭棕 (中国广泛分布)
+        (4, "#7B3F00"),  # Fine - 粘土，保水性高 (深红棕)
+        (6, "#4A5C2F"),  # Organic - 高持水量，泥炭/有机土 (深橄榄绿)
+    ],
+}
+
 ALL_CONFIGS = {
     "pm10": PM10,
     "t2m": T2M,
@@ -187,4 +203,5 @@ ALL_CONFIGS = {
     "latent_heat_flux": LATENT_HEAT_FLUX,
     "net_solar_radiation": NET_SOLAR_RADIATION,
     "sensible_heat_flux": SENSIBLE_HEAT_FLUX,
+    "soil_type": SOIL_TYPE,
 }
