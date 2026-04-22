@@ -201,13 +201,36 @@ HIGH_VEGETATION_TYPE = {
         # https://codes.ecmwf.int/grib/param-db/30
         # 0=No high vegetation, 3=Evergreen needleleaf, 4=Deciduous needleleaf,
         # 5=Deciduous broadleaf, 6=Evergreen broadleaf, 18=Mixed forest, 19=Interrupted forest
-        (0, "#808080"),  # No high vegetation - 无高植被 (灰色)
+        (0, "#00000000"),  # No high vegetation - 无高植被 (透明)
         (3, "#228B22"),  # Evergreen needleleaf - 常绿针叶树 (深绿)
         (4, "#90EE90"),  # Deciduous needleleaf - 落叶针叶树 (浅绿)
         (5, "#D2691E"),  # Deciduous broadleaf - 落叶阔叶树 (橙棕)
         (6, "#006400"),  # Evergreen broadleaf - 常绿阔叶树 (暗绿)
         (18, "#6B8E23"),  # Mixed forest/woodland - 混交林/林地 (草绿)
         (19, "#9ACD32"),  # Interrupted forest - 间断森林 (黄绿)
+    ],
+}
+
+LOW_VEGETATION_TYPE = {
+    "name": "low_vegetation_type",
+    "data_files": [str(DATA_DIR / "invariant_data" / "type_of_low_vegetation.nc")],
+    "output_dir": "output/low_vegetation_type",
+    "gradient": [
+        # ECMWF GRIB Code table 4.234 - Low Vegetation (tvl):
+        # 0=No vegetation, 1=Crops, 2=Grass, 7=Tall grass, 9=Tundra,
+        # 10=Irrigated crops, 11=Semidesert, 13=Bogs, 16=Evergreen shrubs,
+        # 17=Deciduous shrubs, 20=Water and land mixtures
+        (0, "#00000000"),  # No vegetation - 无植被 (透明)
+        (1, "#FFD700"),  # Crops - 农田/混合农业 (黄色)
+        (2, "#90EE90"),  # Grass - 草地 (浅绿)
+        (7, "#8B4513"),  # Tall grass - 高草 (棕褐)
+        (9, "#8B7355"),  # Tundra - 苔原 (暗棕)
+        (10, "#DAA520"),  # Irrigated crops - 灌溉农田 (金黄)
+        (11, "#F4A460"),  # Semidesert - 半荒漠 (沙色)
+        (13, "#006666"),  # Bogs and marshes - 沼泽/湿地 (深蓝绿)
+        (16, "#355E3B"),  # Evergreen shrubs - 常绿灌木 (暗绿)
+        (17, "#CC5500"),  # Deciduous shrubs - 落叶灌木 (橙褐)
+        (20, "#4682B4"),  # Water and land mixtures - 水陆混合 (蓝灰)
     ],
 }
 
@@ -224,4 +247,5 @@ ALL_CONFIGS = {
     "sensible_heat_flux": SENSIBLE_HEAT_FLUX,
     "soil_type": SOIL_TYPE,
     "high_vegetation_type": HIGH_VEGETATION_TYPE,
+    "low_vegetation_type": LOW_VEGETATION_TYPE,
 }

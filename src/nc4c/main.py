@@ -30,6 +30,7 @@ def main() -> None:
         WindProcessor,
         SoilTypeProcessor,
         HighVegetationTypeProcessor,
+        LowVegetationTypeProcessor,
     )
 
     processor_map = {
@@ -45,6 +46,7 @@ def main() -> None:
         # "sensible_heat_flux": SurfaceSensibleHeatFluxProcessor,
         # "soil_type": SoilTypeProcessor,
         "high_vegetation_type": HighVegetationTypeProcessor,
+        "low_vegetation_type": LowVegetationTypeProcessor,
     }
 
     total_processors = len(processor_map)

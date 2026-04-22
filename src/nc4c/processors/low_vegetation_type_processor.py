@@ -1,21 +1,20 @@
-"""High Vegetation Type 数据处理器"""
+"""Low Vegetation Type 数据处理器"""
 
 from pathlib import Path
 
-import numpy as np
 import xarray as xr
 from matplotlib.colors import BoundaryNorm, ListedColormap
 
 from nc4c.core import BaseDataProcessor, read_netcdf
-from nc4c.data_models.high_vegetation_type import (
-    HIGH_VEGETATION_VARIABLE,
-    calculate_high_vegetation_type,
+from nc4c.data_models.low_vegetation_type import (
+    LOW_VEGETATION_VARIABLE,
+    calculate_low_vegetation_type,
 )
 from nc4c.utils.datetime_utils import format_timestamp_filename
 
 
-class HighVegetationTypeProcessor(BaseDataProcessor):
-    """高植被类型图像生成处理器"""
+class LowVegetationTypeProcessor(BaseDataProcessor):
+    """低植被类型图像生成处理器"""
 
     def __init__(
         self,
@@ -27,7 +26,7 @@ class HighVegetationTypeProcessor(BaseDataProcessor):
         lat_range: tuple[float, float] | None = None,
     ) -> None:
         """
-        初始化高植被类型处理器
+        初始化低植被类型处理器
 
         Args:
             name: 处理器名称
@@ -45,11 +44,11 @@ class HighVegetationTypeProcessor(BaseDataProcessor):
 
     def get_required_variables(self) -> list[str]:
         """获取所需变量列表"""
-        return list(HIGH_VEGETATION_VARIABLE)
+        return list(LOW_VEGETATION_VARIABLE)
 
     def get_output_name(self) -> str:
         """获取输出目录名称"""
-        return "high_vegetation_type"
+        return "low_vegetation_type"
 
     def load(self) -> xr.Dataset:
         """加载 NetCDF 数据"""
@@ -61,10 +60,10 @@ class HighVegetationTypeProcessor(BaseDataProcessor):
         )
 
     def process(self, dataset: xr.Dataset) -> xr.DataArray:
-        """处理高植被类型数据"""
-        return calculate_high_vegetation_type(
+        """处理低植被类型数据"""
+        return calculate_low_vegetation_type(
             dataset=dataset,
-            variables=HIGH_VEGETATION_VARIABLE,
+            variables=LOW_VEGETATION_VARIABLE,
         )
 
     def _parse_gradient(self) -> tuple[list[str], list[float]]:
@@ -82,7 +81,7 @@ class HighVegetationTypeProcessor(BaseDataProcessor):
         """
         if self.gradient is None:
             raise ValueError(
-                "HighVegetationTypeProcessor requires gradient configuration"
+                "LowVegetationTypeProcessor requires gradient configuration"
             )
 
         gradient = self.gradient
@@ -101,7 +100,7 @@ class HighVegetationTypeProcessor(BaseDataProcessor):
         return colors, bounds
 
     def save(self, data: xr.DataArray, output_dir: str) -> list[Path]:
-        """生成高植被类型图像"""
+        """生成低植被类型图像"""
         from matplotlib import pyplot as plt
 
         output_path = Path(output_dir)

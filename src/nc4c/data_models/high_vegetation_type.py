@@ -6,7 +6,7 @@ import xarray as xr
 HIGH_VEGETATION_VARIABLE: tuple[str, ...] = ("tvh",)
 
 HIGH_VEGETATION_CATEGORIES: dict[int, str] = {
-    0: "No high vegetation - 无高植被",
+    0: "No high vegetation - 无高植被 (透明)",
     3: "Evergreen needleleaf trees - 常绿针叶树",
     4: "Deciduous needleleaf trees - 落叶针叶树",
     5: "Deciduous broadleaf trees - 落叶阔叶树",
