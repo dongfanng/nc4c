@@ -36,13 +36,15 @@ def main() -> None:
         # "potential_evaporation": PotentialEvaporationProcessor,
         # "total_evaporation": TotalEvaporationProcessor,
         # "wind": WindProcessor,
-        "latent_heat_flux": SurfaceLatentHeatFluxProcessor,
+        # "latent_heat_flux": SurfaceLatentHeatFluxProcessor,
     }
 
-    for key, processor_cls in processor_map.items():
+    total_processors = len(processor_map)
+    for idx, (key, processor_cls) in enumerate(processor_map.items(), start=1):
         config = ALL_CONFIGS[key]
         processor = create_processor(processor_cls, config)
+        print(f"[{idx}/{total_processors}] Processing {config['name']}...")
         generated = processor.run()
         print(
-            f"Generated {len(generated)} {config['name']} images in {config['output_dir']}"
+            f"[{idx}/{total_processors}] Generated {len(generated)} {config['name']} images in {config['output_dir']}"
         )
