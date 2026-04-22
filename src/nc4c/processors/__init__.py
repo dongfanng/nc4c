@@ -1,6 +1,7 @@
 """数据处理器模块"""
 
 from nc4c.processors.evaporation_canopy_processor import EvaporationCanopyProcessor
+from nc4c.processors.high_vegetation_type_processor import HighVegetationTypeProcessor
 from nc4c.processors.potential_evaporation_processor import (
     PotentialEvaporationProcessor,
 )
@@ -24,6 +25,7 @@ from nc4c.processors.wind_processor import WindProcessor
 
 __all__ = [
     "EvaporationCanopyProcessor",
+    "HighVegetationTypeProcessor",
     "PotentialEvaporationProcessor",
     "PM10Processor",
     "SoilTypeProcessor",

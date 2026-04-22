@@ -192,6 +192,25 @@ SOIL_TYPE = {
     ],
 }
 
+HIGH_VEGETATION_TYPE = {
+    "name": "high_vegetation_type",
+    "data_files": [str(DATA_DIR / "invariant_data" / "type_of_high_vegetation.nc")],
+    "output_dir": "output/high_vegetation_type",
+    "gradient": [
+        # ECMWF GRIB Code table 4.234 - High Vegetation (tvh):
+        # https://codes.ecmwf.int/grib/param-db/30
+        # 0=No high vegetation, 3=Evergreen needleleaf, 4=Deciduous needleleaf,
+        # 5=Deciduous broadleaf, 6=Evergreen broadleaf, 18=Mixed forest, 19=Interrupted forest
+        (0, "#808080"),  # No high vegetation - 无高植被 (灰色)
+        (3, "#228B22"),  # Evergreen needleleaf - 常绿针叶树 (深绿)
+        (4, "#90EE90"),  # Deciduous needleleaf - 落叶针叶树 (浅绿)
+        (5, "#D2691E"),  # Deciduous broadleaf - 落叶阔叶树 (橙棕)
+        (6, "#006400"),  # Evergreen broadleaf - 常绿阔叶树 (暗绿)
+        (18, "#6B8E23"),  # Mixed forest/woodland - 混交林/林地 (草绿)
+        (19, "#9ACD32"),  # Interrupted forest - 间断森林 (黄绿)
+    ],
+}
+
 ALL_CONFIGS = {
     "pm10": PM10,
     "t2m": T2M,
@@ -204,4 +223,5 @@ ALL_CONFIGS = {
     "net_solar_radiation": NET_SOLAR_RADIATION,
     "sensible_heat_flux": SENSIBLE_HEAT_FLUX,
     "soil_type": SOIL_TYPE,
+    "high_vegetation_type": HIGH_VEGETATION_TYPE,
 }
