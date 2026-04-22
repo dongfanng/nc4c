@@ -22,6 +22,7 @@ class BaseDataProcessor(ABC):
         input_paths: list[str],
         output_dir: str,
         gradient: list[tuple[float, str]] | None = None,
+        discrete: bool = False,
     ) -> None:
         """
         初始化处理器
@@ -31,11 +32,13 @@ class BaseDataProcessor(ABC):
             input_paths: 输入文件路径列表
             output_dir: 输出目录
             gradient: 颜色渐变列表，用于创建色图
+            discrete: 是否为离散分类模式（默认 False）
         """
         self.name = name
         self.input_paths = input_paths
         self.output_dir = output_dir
         self.gradient = gradient
+        self.discrete = discrete
 
     def run(self) -> list[Path]:
         """

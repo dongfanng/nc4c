@@ -12,13 +12,24 @@ _COORD_MAPPING: dict[str, list[str]] = {
     "time": ["valid_time", "time_counter", "forecast_time"],
 }
 
+_MISSING_VALUE_ATTRS: tuple[str, ...] = (
+    "missing_value",
+    "missingValue",
+    "FillValue",
+    "_FillValue",
+    "grib_missing_value",
+    "GRIB_missingValue",
+)
+
+_DEFAULT_MISSING_VALUE: float = 9.9999999e14
+
 
 def read_netcdf(
     file_paths: list[str],
     variables: list[str] | None = None,
     lon_range: list[float] | None = None,
     lat_range: list[float] | None = None,
-    missing_value: float = 9.9999999e14,
+    missing_value: float | None = None,
 ) -> xr.Dataset:
     """
     读取 NetCDF 文件
@@ -28,16 +39,20 @@ def read_netcdf(
         variables: 要读取的变量名列表
         lon_range: 经度范围 [min, max]
         lat_range: 纬度范围 [min, max]
-        missing_value: 缺失值
+        missing_value: 缺失值，为 None 时自动从元数据读取
 
     Returns:
         合并后的 xarray Dataset
     """
     datasets: list[xr.Dataset] = []
     time_dim: str | None = None
+    detected_missing: float | None = None
 
     for file_path in file_paths:
         ds = xr.open_dataset(file_path)
+
+        if detected_missing is None:
+            detected_missing = _detect_missing_value(ds)
 
         if variables is not None:
             data_vars = {var: ds[var] for var in variables if var in ds}
@@ -57,7 +72,15 @@ def read_netcdf(
     if time_dim != "time":
         combined = combined.rename({time_dim: "time"})
     combined = _normalize_coords(combined)
-    combined = _replace_missing(combined, missing_value=missing_value)
+
+    final_missing = (
+        missing_value
+        if missing_value is not None
+        else (
+            detected_missing if detected_missing is not None else _DEFAULT_MISSING_VALUE
+        )
+    )
+    combined = _replace_missing(combined, missing_value=final_missing)
 
     return combined
 
@@ -157,6 +180,27 @@ def _detect_time_dim(dataset: xr.Dataset) -> str:
     raise ValueError(
         f"Cannot find time dimension in dataset. Available dims: {list(dataset.dims)}"
     )
+
+
+def _detect_missing_value(dataset: xr.Dataset) -> float:
+    """
+    从数据集的变量属性中检测缺失值
+
+    尝试常见的缺失值属性名（missing_value, FillValue, _FillValue, grib_missing_value）
+    如果都找不到，则使用默认值
+
+    Args:
+        dataset: 输入数据集
+
+    Returns:
+        缺失值
+    """
+    for var_name in dataset.data_vars:
+        var = dataset[var_name]
+        for attr in _MISSING_VALUE_ATTRS:
+            if attr in var.attrs:
+                return float(var.attrs[attr])
+    return _DEFAULT_MISSING_VALUE
 
 
 def _replace_missing(

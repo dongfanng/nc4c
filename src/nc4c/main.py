@@ -1,8 +1,27 @@
 """主模块 - 整合各模块生成图像"""
 
-from nc4c.processors.stl1_processor import Stl1Processor
-from nc4c.processors.snow_depth_processor import SnowDepthProcessor
 from nc4c.config import ALL_CONFIGS, LON_RANGE, LAT_RANGE
+from nc4c.processors import (
+    EvaporationCanopyProcessor,
+    HighVegetationTypeProcessor,
+    LAI_High_VegetationProcessor,
+    LAI_Low_VegetationProcessor,
+    LowVegetationTypeProcessor,
+    PM10Processor,
+    PotentialEvaporationProcessor,
+    SnowDepthProcessor,
+    SoilMoistureProcessor,
+    SoilTypeProcessor,
+    Stl1Processor,
+    SurfaceLatentHeatFluxProcessor,
+    SurfaceNetSolarRadiationProcessor,
+    SurfaceSensibleHeatFluxProcessor,
+    TemperatureProcessor,
+    TotalEvaporationProcessor,
+    TotalPrecipitationProcessor,
+    VegetationTranspirationProcessor,
+    WindProcessor,
+)
 
 
 def create_processor(processor_class, config):
@@ -14,51 +33,33 @@ def create_processor(processor_class, config):
     )
     if "gradient" in config:
         kwargs["gradient"] = config["gradient"]
+    if "discrete" in config:
+        kwargs["discrete"] = config["discrete"]
     return processor_class(name=config["name"], **kwargs)
 
 
 def main() -> None:
     """使用默认配置运行"""
-    from nc4c.processors import (
-        EvaporationCanopyProcessor,
-        LAI_High_VegetationProcessor,
-        LAI_Low_VegetationProcessor,
-        PM10Processor,
-        PotentialEvaporationProcessor,
-        SurfaceLatentHeatFluxProcessor,
-        SurfaceNetSolarRadiationProcessor,
-        SurfaceSensibleHeatFluxProcessor,
-        TemperatureProcessor,
-        TotalEvaporationProcessor,
-        VegetationTranspirationProcessor,
-        WindProcessor,
-        SoilTypeProcessor,
-        HighVegetationTypeProcessor,
-        LowVegetationTypeProcessor,
-        TotalPrecipitationProcessor,
-        Stl1Processor,
-    )
-
     processor_map = {
-        # "pm10": PM10Processor,
-        # "t2m": TemperatureProcessor,
-        # "evaporation_canopy": EvaporationCanopyProcessor,
-        # "vegetation_transpiration": VegetationTranspirationProcessor,
-        # "potential_evaporation": PotentialEvaporationProcessor,
-        # "total_evaporation": TotalEvaporationProcessor,
-        # "wind": WindProcessor,
-        # "latent_heat_flux": SurfaceLatentHeatFluxProcessor,
-        # "net_solar_radiation": SurfaceNetSolarRadiationProcessor,
-        # "sensible_heat_flux": SurfaceSensibleHeatFluxProcessor,
-        # "soil_type": SoilTypeProcessor,
+        "pm10": PM10Processor,
+        "t2m": TemperatureProcessor,
+        "evaporation_canopy": EvaporationCanopyProcessor,
+        "vegetation_transpiration": VegetationTranspirationProcessor,
+        "potential_evaporation": PotentialEvaporationProcessor,
+        "total_evaporation": TotalEvaporationProcessor,
+        "wind": WindProcessor,
+        "latent_heat_flux": SurfaceLatentHeatFluxProcessor,
+        "net_solar_radiation": SurfaceNetSolarRadiationProcessor,
+        "sensible_heat_flux": SurfaceSensibleHeatFluxProcessor,
+        "soil_type": SoilTypeProcessor,
         # "high_vegetation_type": HighVegetationTypeProcessor,
         # "low_vegetation_type": LowVegetationTypeProcessor,
         # "lai_low_vegetation": LAI_Low_VegetationProcessor,
         # "lai_high_vegetation": LAI_High_VegetationProcessor,
         # "total_precipitation": TotalPrecipitationProcessor,
         # "volumetric_soil_water_layer_1": SoilMoistureProcessor,
-        "soil_temperature_level_1": Stl1Processor,
-        "snow_depth": SnowDepthProcessor,
+        # "soil_temperature_level_1": Stl1Processor,
+        # "snow_depth": SnowDepthProcessor,
     }
 
     total_processors = len(processor_map)

@@ -180,10 +180,11 @@ SOIL_TYPE = {
     "name": "soil_type",
     "data_files": [str(DATA_DIR / "invariant_data" / "soil_type.nc")],
     "output_dir": "output/soil_type",
+    "discrete": True,
     "gradient": [
         # ECMWF IFS Soil Type (FAO soil texture): 0=No data/Water, 1=Coarse(sand),
         # 2=Medium(loam), 3=Medium-fine, 4=Fine(clay), 6=Organic
-        (0, "#C9D8E8"),  # Water - 海洋/湖泊 (浅蓝灰)
+        (0, "#00000000"),  # Water - 海洋/湖泊 (透明)
         (1, "#F5DEB3"),  # Coarse - 砂土，保水性低 (浅黄)
         (2, "#C8A96E"),  # Medium - 壤土，最主要类型 (棕黄)
         (3, "#A0785A"),  # Medium-fine - 赭棕 (中国广泛分布)
@@ -196,6 +197,7 @@ HIGH_VEGETATION_TYPE = {
     "name": "high_vegetation_type",
     "data_files": [str(DATA_DIR / "invariant_data" / "type_of_high_vegetation.nc")],
     "output_dir": "output/high_vegetation_type",
+    "discrete": True,
     "gradient": [
         # ECMWF GRIB Code table 4.234 - High Vegetation (tvh):
         # https://codes.ecmwf.int/grib/param-db/30
@@ -215,6 +217,7 @@ LOW_VEGETATION_TYPE = {
     "name": "low_vegetation_type",
     "data_files": [str(DATA_DIR / "invariant_data" / "type_of_low_vegetation.nc")],
     "output_dir": "output/low_vegetation_type",
+    "discrete": True,
     "gradient": [
         # ECMWF GRIB Code table 4.234 - Low Vegetation (tvl):
         # 0=No vegetation, 1=Crops, 2=Grass, 7=Tall grass, 9=Tundra,
