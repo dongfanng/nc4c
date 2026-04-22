@@ -21,6 +21,7 @@ from nc4c.processors.surface_sensible_heat_flux_processor import (
 )
 from nc4c.processors.temperature_processor import TemperatureProcessor
 from nc4c.processors.total_evaporation_processor import TotalEvaporationProcessor
+from nc4c.processors.total_precipitation_processor import TotalPrecipitationProcessor
 from nc4c.processors.vegetation_transpiration_processor import (
     VegetationTranspirationProcessor,
 )
@@ -40,6 +41,7 @@ __all__ = [
     "SurfaceSensibleHeatFluxProcessor",
     "TemperatureProcessor",
     "TotalEvaporationProcessor",
+    "TotalPrecipitationProcessor",
     "VegetationTranspirationProcessor",
     "WindProcessor",
 ]

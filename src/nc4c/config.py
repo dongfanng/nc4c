@@ -266,6 +266,19 @@ LAI_HIGH_VEGETATION = {
     ],
 }
 
+TOTAL_PRECIPITATION = {
+    "name": "total_precipitation",
+    "data_files": [str(DATA_DIR / "raw_met_data" / "total_precipitation.nc")],
+    "output_dir": "output/total_precipitation",
+    "gradient": [
+        (0.0, "#00000000"),
+        (0.1, "#C8E3F5"),
+        (1.0, "#75B4F0"),
+        (5.0, "#2E6AB3"),
+        (10.0, "#1A3A6B"),
+    ],
+}
+
 ALL_CONFIGS = {
     "pm10": PM10,
     "t2m": T2M,
@@ -282,4 +295,5 @@ ALL_CONFIGS = {
     "low_vegetation_type": LOW_VEGETATION_TYPE,
     "lai_low_vegetation": LAI_LOW_VEGETATION,
     "lai_high_vegetation": LAI_HIGH_VEGETATION,
+    "total_precipitation": TOTAL_PRECIPITATION,
 }

@@ -12,6 +12,10 @@ from nc4c.data_models.potential_evaporation import (
     calculate_vegetation_transpiration,
 )
 from nc4c.data_models.temperature import T2M_VARIABLE, calculate_2m_temperature
+from nc4c.data_models.total_precipitation import (
+    TP_VARIABLE,
+    calculate_total_precipitation,
+)
 from nc4c.data_models.u_v_wind import U_VARIABLE, V_VARIABLE, get_u_v_arrays
 
 __all__ = [
@@ -23,8 +27,10 @@ __all__ = [
     "calculate_total_evaporation",
     "calculate_vegetation_transpiration",
     "calculate_2m_temperature",
+    "calculate_total_precipitation",
     "get_u_v_arrays",
     "T2M_VARIABLE",
+    "TP_VARIABLE",
     "U_VARIABLE",
     "V_VARIABLE",
 ]

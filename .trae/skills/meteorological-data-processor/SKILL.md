@@ -123,6 +123,7 @@ Value distribution near zero:
 **Use these statistics to design colormap:**
 - **For skewed data**: Set color stops at percentiles (P10, P25, P75, P90)
 - **For values near zero**: Use narrow transparent zone like `(-0.001, "#00000000"), (0.001, "#00000000")`
+- **Zero value default**: For precipitation/accumulation data where 0 means "no precipitation", use transparent `#00000000` at value 0 to show background
 - **Never use raw min/max** for colormap range unless data is uniformly distributed
 
 **Example output for 2m_temperature.nc:**
