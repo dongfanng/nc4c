@@ -11,6 +11,7 @@ from nc4c.processors.potential_evaporation_processor import (
 from nc4c.processors.pm10_processor import PM10Processor
 from nc4c.processors.soil_moisture_processor import SoilMoistureProcessor
 from nc4c.processors.soil_type_processor import SoilTypeProcessor
+from nc4c.processors.stl1_processor import Stl1Processor
 from nc4c.processors.surface_latent_heat_flux_processor import (
     SurfaceLatentHeatFluxProcessor,
 )
@@ -38,6 +39,7 @@ __all__ = [
     "PM10Processor",
     "SoilMoistureProcessor",
     "SoilTypeProcessor",
+    "Stl1Processor",
     "SurfaceLatentHeatFluxProcessor",
     "SurfaceNetSolarRadiationProcessor",
     "SurfaceSensibleHeatFluxProcessor",

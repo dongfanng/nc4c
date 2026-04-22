@@ -1,5 +1,6 @@
 """主模块 - 整合各模块生成图像"""
 
+from nc4c.processors.stl1_processor import Stl1Processor
 from nc4c.config import ALL_CONFIGS, LON_RANGE, LAT_RANGE
 
 
@@ -34,7 +35,7 @@ def main() -> None:
         HighVegetationTypeProcessor,
         LowVegetationTypeProcessor,
         TotalPrecipitationProcessor,
-        SoilMoistureProcessor,
+        Stl1Processor,
     )
 
     processor_map = {
@@ -54,7 +55,8 @@ def main() -> None:
         # "lai_low_vegetation": LAI_Low_VegetationProcessor,
         # "lai_high_vegetation": LAI_High_VegetationProcessor,
         # "total_precipitation": TotalPrecipitationProcessor,
-        "volumetric_soil_water_layer_1": SoilMoistureProcessor,
+        # "volumetric_soil_water_layer_1": SoilMoistureProcessor,
+        "soil_temperature_level_1": Stl1Processor,
     }
 
     total_processors = len(processor_map)

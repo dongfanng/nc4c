@@ -298,6 +298,20 @@ SOIL_MOISTURE = {
     ],
 }
 
+SOIL_TEMPERATURE_LEVEL_1 = {
+    "name": "soil_temperature_level_1",
+    "data_files": [str(DATA_DIR / "raw_met_data" / "soil_temperature_level_1.nc")],
+    "output_dir": "output/soil_temperature_level_1",
+    "gradient": [
+        (-15, "#2B2D6B"),
+        (-5, "#3D82D4"),
+        (5, "#C8DDF6"),
+        (15, "#EDE787"),
+        (25, "#E8DC19"),
+        (30, "#E15E5D"),
+    ],
+}
+
 ALL_CONFIGS = {
     "pm10": PM10,
     "t2m": T2M,
@@ -316,4 +330,5 @@ ALL_CONFIGS = {
     "lai_high_vegetation": LAI_HIGH_VEGETATION,
     "total_precipitation": TOTAL_PRECIPITATION,
     "volumetric_soil_water_layer_1": SOIL_MOISTURE,
+    "soil_temperature_level_1": SOIL_TEMPERATURE_LEVEL_1,
 }
