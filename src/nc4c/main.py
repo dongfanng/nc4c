@@ -1,6 +1,7 @@
 """主模块 - 整合各模块生成图像"""
 
 from nc4c.processors.stl1_processor import Stl1Processor
+from nc4c.processors.snow_depth_processor import SnowDepthProcessor
 from nc4c.config import ALL_CONFIGS, LON_RANGE, LAT_RANGE
 
 
@@ -57,6 +58,7 @@ def main() -> None:
         # "total_precipitation": TotalPrecipitationProcessor,
         # "volumetric_soil_water_layer_1": SoilMoistureProcessor,
         "soil_temperature_level_1": Stl1Processor,
+        "snow_depth": SnowDepthProcessor,
     }
 
     total_processors = len(processor_map)

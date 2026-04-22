@@ -9,6 +9,7 @@ from nc4c.processors.potential_evaporation_processor import (
     PotentialEvaporationProcessor,
 )
 from nc4c.processors.pm10_processor import PM10Processor
+from nc4c.processors.snow_depth_processor import SnowDepthProcessor
 from nc4c.processors.soil_moisture_processor import SoilMoistureProcessor
 from nc4c.processors.soil_type_processor import SoilTypeProcessor
 from nc4c.processors.stl1_processor import Stl1Processor
@@ -35,8 +36,9 @@ __all__ = [
     "LAI_High_VegetationProcessor",
     "LAI_Low_VegetationProcessor",
     "LowVegetationTypeProcessor",
-    "PotentialEvaporationProcessor",
     "PM10Processor",
+    "PotentialEvaporationProcessor",
+    "SnowDepthProcessor",
     "SoilMoistureProcessor",
     "SoilTypeProcessor",
     "Stl1Processor",

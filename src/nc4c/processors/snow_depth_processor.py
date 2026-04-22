@@ -1,0 +1,97 @@
+"""Snow Depth data processor"""
+
+from pathlib import Path
+
+import xarray as xr
+
+from nc4c.core import BaseDataProcessor, read_netcdf
+from nc4c.data_models.snow_depth import (
+    METERS_TO_CM,
+    SNOW_DEPTH_VARIABLE,
+    calculate_snow_depth,
+)
+from nc4c.utils.datetime_utils import format_timestamp_filename
+from nc4c.visualization import (
+    create_colormap_and_norm,
+    render_image,
+)
+
+
+class SnowDepthProcessor(BaseDataProcessor):
+    """Snow depth image generation processor"""
+
+    def __init__(
+        self,
+        name: str,
+        input_paths: list[str],
+        output_dir: str,
+        gradient: list[tuple[float, str]],
+        lon_range: tuple[float, float] | None = None,
+        lat_range: tuple[float, float] | None = None,
+    ) -> None:
+        """
+        Initialize snow depth processor
+
+        Args:
+            name: Processor name
+            input_paths: Input file paths
+            output_dir: Output directory
+            gradient: Color gradient list
+            lon_range: Longitude range, None for auto-detect
+            lat_range: Latitude range, None for auto-detect
+        """
+        super().__init__(
+            name=name, input_paths=input_paths, output_dir=output_dir, gradient=gradient
+        )
+        self.lon_range = lon_range
+        self.lat_range = lat_range
+
+    def get_required_variables(self) -> list[str]:
+        """Get required variable list"""
+        return list(SNOW_DEPTH_VARIABLE)
+
+    def load(self) -> xr.Dataset:
+        """Load NetCDF data"""
+        return read_netcdf(
+            file_paths=self.input_paths,
+            variables=self.get_required_variables(),
+            lon_range=list(self.lon_range) if self.lon_range is not None else None,
+            lat_range=list(self.lat_range) if self.lat_range is not None else None,
+            missing_value=3.4028234663852886e38,
+        )
+
+    def process(self, dataset: xr.Dataset) -> xr.DataArray:
+        """Calculate snow depth (m → cm)"""
+        return calculate_snow_depth(
+            dataset=dataset,
+            variables=SNOW_DEPTH_VARIABLE,
+        )
+
+    def save(self, data: xr.DataArray, output_dir: str) -> list[Path]:
+        """Generate snow depth images"""
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
+
+        assert self.gradient is not None
+        colormap_obj, norm = create_colormap_and_norm(self.gradient)
+
+        generated_files: list[Path] = []
+        n_times = len(data.coords["time"])
+
+        for time_idx in range(n_times):
+            timestamp = data.coords["time"].values[time_idx]
+            output_file = format_timestamp_filename(output_path, timestamp)
+
+            render_image(
+                data=data,
+                time_index=time_idx,
+                output_path=output_file,
+                colormap=colormap_obj,
+                norm=norm,
+                lon_range=self.lon_range,
+                lat_range=self.lat_range,
+                interpolate=False,
+            )
+            generated_files.append(output_file)
+
+        return generated_files

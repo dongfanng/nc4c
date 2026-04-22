@@ -312,6 +312,20 @@ SOIL_TEMPERATURE_LEVEL_1 = {
     ],
 }
 
+SNOW_DEPTH = {
+    "name": "snow_depth",
+    "data_files": [str(DATA_DIR / "raw_met_data" / "snow_depth.nc")],
+    "output_dir": "output/snow_depth",
+    "gradient": [
+        (0, "#00000000"),
+        (1, "#ADD8E6"),
+        (5, "#00BFFF"),
+        (10, "#0000FF"),
+        (20, "#00008B"),
+        (50, "#000080"),
+    ],
+}
+
 ALL_CONFIGS = {
     "pm10": PM10,
     "t2m": T2M,
@@ -331,4 +345,5 @@ ALL_CONFIGS = {
     "total_precipitation": TOTAL_PRECIPITATION,
     "volumetric_soil_water_layer_1": SOIL_MOISTURE,
     "soil_temperature_level_1": SOIL_TEMPERATURE_LEVEL_1,
+    "snow_depth": SNOW_DEPTH,
 }
