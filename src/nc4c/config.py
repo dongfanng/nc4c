@@ -146,6 +146,36 @@ LATENT_HEAT_FLUX = {
     ],
 }
 
+NET_SOLAR_RADIATION = {
+    "name": "surface_net_solar_radiation",
+    "data_files": [
+        str(DATA_DIR / "radiation_and_heat" / "surface_net_solar_radiation.nc")
+    ],
+    "output_dir": "output/surface_net_solar_radiation",
+    "gradient": [
+        (0, "#00000000"),
+        (5000000, "#F6E8C3"),
+        (10000000, "#E8DC19"),
+        (15000000, "#EAB939"),
+        (22000000, "#721638"),
+    ],
+}
+
+SENSIBLE_HEAT_FLUX = {
+    "name": "surface_sensible_heat_flux",
+    "data_files": [
+        str(DATA_DIR / "radiation_and_heat" / "surface_sensible_heat_flux.nc")
+    ],
+    "output_dir": "output/surface_sensible_heat_flux",
+    "gradient": [
+        (-13000000, "#8c510a"),
+        (-4000000, "#d8b365"),
+        (-50000, "#f6e8c3"),
+        (0, "#00000000"),
+        (500000, "#35978f"),
+    ],
+}
+
 ALL_CONFIGS = {
     "pm10": PM10,
     "t2m": T2M,
@@ -155,4 +185,6 @@ ALL_CONFIGS = {
     "total_evaporation": TOTAL_EVAPORATION,
     "wind": WIND,
     "latent_heat_flux": LATENT_HEAT_FLUX,
+    "net_solar_radiation": NET_SOLAR_RADIATION,
+    "sensible_heat_flux": SENSIBLE_HEAT_FLUX,
 }

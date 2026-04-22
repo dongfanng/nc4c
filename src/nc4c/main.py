@@ -22,6 +22,8 @@ def main() -> None:
         PM10Processor,
         PotentialEvaporationProcessor,
         SurfaceLatentHeatFluxProcessor,
+        SurfaceNetSolarRadiationProcessor,
+        SurfaceSensibleHeatFluxProcessor,
         TemperatureProcessor,
         TotalEvaporationProcessor,
         VegetationTranspirationProcessor,
@@ -37,6 +39,8 @@ def main() -> None:
         # "total_evaporation": TotalEvaporationProcessor,
         # "wind": WindProcessor,
         # "latent_heat_flux": SurfaceLatentHeatFluxProcessor,
+        "net_solar_radiation": SurfaceNetSolarRadiationProcessor,
+        "sensible_heat_flux": SurfaceSensibleHeatFluxProcessor,
     }
 
     total_processors = len(processor_map)
