@@ -13,6 +13,8 @@ PM10 = {
     "name": "pm10",
     "data_files": [str(p) for p in sorted((DATA_DIR / "pm10_data").glob("*.nc"))],
     "output_dir": "output/pm10",
+    # PM10 质量浓度，单位: μg/m³
+    # 数据范围: 0 ~ 300 μg/m³ (中国标准: 75=良, 150=轻度污染, 250=重度)
     "gradient": [
         (0, "#3D82D4"),
         (20, "#C8DDF6"),
@@ -31,6 +33,8 @@ T2M = {
     "name": "2m_temperature",
     "data_files": [str(DATA_DIR / "raw_met_data" / "2m_temperature.nc")],
     "output_dir": "output/2m_temperature",
+    # 地表气温，单位: °C (原始数据为 K，需 -273.15 转换)
+    # 数据范围: -40 ~ 50°C
     "gradient": [
         (-40, "#E6E6E6"),
         (-30, "#FFAAFF"),
@@ -56,6 +60,9 @@ POTENTIAL_EVAPORATION = {
         str(DATA_DIR / "evaporation_and_runoff" / "potential_evaporation.nc")
     ],
     "output_dir": "output/potential_evaporation",
+    # 潜在蒸发量，单位: mm (原始数据为 m，需 ×1000 转换)
+    # 负值=蒸发(放热)，正值=凝结(吸热)
+    # 数据范围: -6 ~ 0.8 mm
     "gradient": [
         (-6, "#8c510a"),
         (-2, "#d8b365"),
@@ -76,6 +83,9 @@ EVAPORATION_CANOPY = {
         )
     ],
     "output_dir": "output/evaporation_canopy",
+    # 冠层顶部蒸发量，单位: mm (原始数据为 m，需 ×1000 转换)
+    # 负值=蒸发，正值=凝结
+    # 数据范围: -0.5 ~ 0.01 mm
     "gradient": [
         (-0.5, "#8c510a"),
         (-0.1, "#d8b365"),
@@ -96,6 +106,9 @@ VEGETATION_TRANSPIRATION = {
         )
     ],
     "output_dir": "output/vegetation_transpiration",
+    # 植被蒸腾量，单位: mm (原始数据为 m，需 ×1000 转换)
+    # 负值=蒸发，正值=凝结
+    # 数据范围: -5 ~ 5 mm
     "gradient": [
         (-5, "#8c510a"),
         (-2.5, "#d8b365"),
@@ -111,6 +124,9 @@ TOTAL_EVAPORATION = {
     "name": "total_evaporation",
     "data_files": [str(DATA_DIR / "evaporation_and_runoff" / "total_evaporation.nc")],
     "output_dir": "output/total_evaporation",
+    # 总蒸发量，单位: mm (原始数据为 m，需 ×1000 转换)
+    # 负值=蒸发，正值=凝结
+    # 数据范围: -1.5 ~ 1.8 mm
     "gradient": [
         (-1.5, "#8c510a"),
         (-0.3, "#d8b365"),
@@ -131,6 +147,8 @@ WIND = {
         )
     ],
     "output_dir": "output/wind",
+    # 风场数据，输出为 JSON 格式
+    # u: 东西风分量 (m/s)，v: 南北风分量 (m/s)
 }
 
 LATENT_HEAT_FLUX = {
@@ -139,6 +157,9 @@ LATENT_HEAT_FLUX = {
         str(DATA_DIR / "radiation_and_heat" / "surface_latent_heat_flux.nc")
     ],
     "output_dir": "output/surface_latent_heat_flux",
+    # 表面潜热通量，单位: J/m² (每小时间隔的总能量)
+    # 负值=从地表释放，正值=被地表吸收
+    # 数据范围: -5500000 ~ 20000 J/m²
     "gradient": [
         (-5500000, "#8c510a"),
         (-400000, "#d8b365"),
@@ -154,6 +175,8 @@ NET_SOLAR_RADIATION = {
         str(DATA_DIR / "radiation_and_heat" / "surface_net_solar_radiation.nc")
     ],
     "output_dir": "output/surface_net_solar_radiation",
+    # 表面净短波辐射，单位: J/m² (每小时间隔的总能量)
+    # 数据范围: 0 ~ 22000000 J/m² (正值=入射，0=夜间/无辐射)
     "gradient": [
         (0, "#00000000"),
         (5000000, "#F6E8C3"),
@@ -169,6 +192,9 @@ SENSIBLE_HEAT_FLUX = {
         str(DATA_DIR / "radiation_and_heat" / "surface_sensible_heat_flux.nc")
     ],
     "output_dir": "output/surface_sensible_heat_flux",
+    # 表面感热通量，单位: J/m² (每小时间隔的总能量)
+    # 负值=从地表释放到大气，正值=被地表吸收
+    # 数据范围: -13000000 ~ 500000 J/m²
     "gradient": [
         (-13000000, "#8c510a"),
         (-4000000, "#d8b365"),
@@ -183,15 +209,17 @@ SOIL_TYPE = {
     "data_files": [str(DATA_DIR / "invariant_data" / "soil_type.nc")],
     "output_dir": "output/soil_type",
     "discrete": True,
+    # 土壤质地类型，单位: 分类 ID (无量纲)
+    # FAO 土壤质地分类: 0=无数据/水体, 1=砂土, 2=壤土, 3=中细, 4=粘土, 6=有机土
+    # ECMWF IFS Soil Type (FAO soil texture): 0=No data/Water, 1=Coarse(sand),
+    # 2=Medium(loam), 3=Medium-fine, 4=Fine(clay), 6=Organic
     "gradient": [
-        # ECMWF IFS Soil Type (FAO soil texture): 0=No data/Water, 1=Coarse(sand),
-        # 2=Medium(loam), 3=Medium-fine, 4=Fine(clay), 6=Organic
-        (0, "#00000000"),  # Water - 海洋/湖泊 (透明)
-        (1, "#F5DEB3"),  # Coarse - 砂土，保水性低 (浅黄)
-        (2, "#C8A96E"),  # Medium - 壤土，最主要类型 (棕黄)
-        (3, "#A0785A"),  # Medium-fine - 赭棕 (中国广泛分布)
-        (4, "#7B3F00"),  # Fine - 粘土，保水性高 (深红棕)
-        (6, "#4A5C2F"),  # Organic - 高持水量，泥炭/有机土 (深橄榄绿)
+        (0, "#00000000"),  # 水体 (透明)
+        (1, "#F5DEB3"),  # 砂土 - 粗质、保水性低
+        (2, "#C8A96E"),  # 壤土 - 中质、最主要类型
+        (3, "#A0785A"),  # 中细 - 赭棕、中国广泛分布
+        (4, "#7B3F00"),  # 粘土 - 细质、保水性高
+        (6, "#4A5C2F"),  # 有机土 - 高持水量
     ],
 }
 
@@ -200,18 +228,16 @@ HIGH_VEGETATION_TYPE = {
     "data_files": [str(DATA_DIR / "invariant_data" / "type_of_high_vegetation.nc")],
     "output_dir": "output/high_vegetation_type",
     "discrete": True,
+    # 高植被类型，单位: GRIB Code table 4.234 (无量纲)
+    # 3=常绿针叶, 4=落叶针叶, 5=落叶阔叶, 6=常绿阔叶, 18=混交林, 19=间断森林
     "gradient": [
-        # ECMWF GRIB Code table 4.234 - High Vegetation (tvh):
-        # https://codes.ecmwf.int/grib/param-db/30
-        # 0=No high vegetation, 3=Evergreen needleleaf, 4=Deciduous needleleaf,
-        # 5=Deciduous broadleaf, 6=Evergreen broadleaf, 18=Mixed forest, 19=Interrupted forest
-        (0, "#00000000"),  # No high vegetation - 无高植被 (透明)
-        (3, "#228B22"),  # Evergreen needleleaf - 常绿针叶树 (深绿)
-        (4, "#90EE90"),  # Deciduous needleleaf - 落叶针叶树 (浅绿)
-        (5, "#D2691E"),  # Deciduous broadleaf - 落叶阔叶树 (橙棕)
-        (6, "#006400"),  # Evergreen broadleaf - 常绿阔叶树 (暗绿)
-        (18, "#6B8E23"),  # Mixed forest/woodland - 混交林/林地 (草绿)
-        (19, "#9ACD32"),  # Interrupted forest - 间断森林 (黄绿)
+        (0, "#00000000"),  # 无高植被 (透明)
+        (3, "#228B22"),  # 常绿针叶树 - 深绿
+        (4, "#90EE90"),  # 落叶针叶树 - 浅绿
+        (5, "#D2691E"),  # 落叶阔叶树 - 橙棕
+        (6, "#006400"),  # 常绿阔叶树 - 暗绿
+        (18, "#6B8E23"),  # 混交林/林地 - 草绿
+        (19, "#9ACD32"),  # 间断森林 - 黄绿
     ],
 }
 
@@ -220,22 +246,24 @@ LOW_VEGETATION_TYPE = {
     "data_files": [str(DATA_DIR / "invariant_data" / "type_of_low_vegetation.nc")],
     "output_dir": "output/low_vegetation_type",
     "discrete": True,
+    # 低植被类型，单位: GRIB Code table 4.234 (无量纲)
+    # 0=无植被, 1=农田, 2=草地, 7=高草, 9=苔原, 10=灌溉农田, 11=半荒漠, 13=沼泽, 16=常绿灌木, 17=落叶灌木
+    # ECMWF GRIB Code table 4.234 - Low Vegetation (tvl):
+    # 0=No vegetation, 1=Crops, 2=Grass, 7=Tall grass, 9=Tundra,
+    # 10=Irrigated crops, 11=Semidesert, 13=Bogs, 16=Evergreen shrubs,
+    # 17=Deciduous shrubs, 20=Water and land mixtures
     "gradient": [
-        # ECMWF GRIB Code table 4.234 - Low Vegetation (tvl):
-        # 0=No vegetation, 1=Crops, 2=Grass, 7=Tall grass, 9=Tundra,
-        # 10=Irrigated crops, 11=Semidesert, 13=Bogs, 16=Evergreen shrubs,
-        # 17=Deciduous shrubs, 20=Water and land mixtures
-        (0, "#00000000"),  # No vegetation - 无植被 (透明)
-        (1, "#FFD700"),  # Crops - 农田/混合农业 (黄色)
-        (2, "#90EE90"),  # Grass - 草地 (浅绿)
-        (7, "#8B4513"),  # Tall grass - 高草 (棕褐)
-        (9, "#8B7355"),  # Tundra - 苔原 (暗棕)
-        (10, "#DAA520"),  # Irrigated crops - 灌溉农田 (金黄)
-        (11, "#F4A460"),  # Semidesert - 半荒漠 (沙色)
-        (13, "#006666"),  # Bogs and marshes - 沼泽/湿地 (深蓝绿)
-        (16, "#355E3B"),  # Evergreen shrubs - 常绿灌木 (暗绿)
-        (17, "#CC5500"),  # Deciduous shrubs - 落叶灌木 (橙褐)
-        (20, "#4682B4"),  # Water and land mixtures - 水陆混合 (蓝灰)
+        (0, "#00000000"),  # 无植被 (透明)
+        (1, "#FFD700"),  # 农田/混合农业 - 黄色
+        (2, "#90EE90"),  # 草地 - 浅绿
+        (7, "#8B4513"),  # 高草 - 棕褐
+        (9, "#8B7355"),  # 苔原 - 暗棕
+        (10, "#DAA520"),  # 灌溉农田 - 金黄
+        (11, "#F4A460"),  # 半荒漠 - 沙色
+        (13, "#006666"),  # 沼泽/湿地 - 深蓝绿
+        (16, "#355E3B"),  # 常绿灌木 - 暗绿
+        (17, "#CC5500"),  # 落叶灌木 - 橙褐
+        (20, "#4682B4"),  # 水陆混合 - 蓝灰
     ],
 }
 
@@ -245,6 +273,8 @@ LAI_LOW_VEGETATION = {
         str(DATA_DIR / "vegetation_data" / "leaf_area_index_low_vegetation.nc")
     ],
     "output_dir": "output/lai_low_vegetation",
+    # 低植被叶面积指数，单位: m²/m² (无量纲)
+    # 表示单位面积上叶片单面面积，数据范围: 0 ~ 4
     "gradient": [
         (0.0, "#00000000"),
         (0.5, "#90EE90"),
@@ -261,6 +291,8 @@ LAI_HIGH_VEGETATION = {
         str(DATA_DIR / "vegetation_data" / "leaf_area_index_high_vegetation.nc")
     ],
     "output_dir": "output/lai_high_vegetation",
+    # 高植被叶面积指数，单位: m²/m² (无量纲)
+    # 表示单位面积上叶片单面面积，数据范围: 0 ~ 6
     "gradient": [
         (0.0, "#00000000"),
         (0.5, "#90EE90"),
@@ -275,6 +307,8 @@ TOTAL_PRECIPITATION = {
     "name": "total_precipitation",
     "data_files": [str(DATA_DIR / "raw_met_data" / "total_precipitation.nc")],
     "output_dir": "output/total_precipitation",
+    # 总降水量，单位: mm (原始数据为 m，需 ×1000 转换)
+    # 数据范围: 0 ~ 10 mm (基于 P99 分布)
     "gradient": [
         (0.0, "#00000000"),
         (0.1, "#C8E3F5"),
@@ -288,6 +322,8 @@ SOIL_MOISTURE = {
     "name": "volumetric_soil_water_layer_1",
     "data_files": [str(DATA_DIR / "raw_met_data" / "volumetric_soil_water_layer_1.nc")],
     "output_dir": "output/volumetric_soil_water_layer_1",
+    # 土壤体积含水量 (0-7cm)，单位: m³/m³ 或 % (无单位)
+    # 数据范围: 0 ~ 0.5 m³/m³
     "gradient": [
         (0.00, "#F5F5F5"),
         (0.05, "#E0F2FE"),
@@ -307,6 +343,8 @@ SOIL_TEMPERATURE_LEVEL_1 = {
     "name": "soil_temperature_level_1",
     "data_files": [str(DATA_DIR / "raw_met_data" / "soil_temperature_level_1.nc")],
     "output_dir": "output/soil_temperature_level_1",
+    # 土壤温度 (表层)，单位: °C (原始数据为 K，需 -273.15 转换)
+    # 数据范围: -15 ~ 30°C
     "gradient": [
         (-15, "#2B2D6B"),
         (-5, "#3D82D4"),
@@ -321,6 +359,8 @@ SNOW_DEPTH = {
     "name": "snow_depth",
     "data_files": [str(DATA_DIR / "raw_met_data" / "snow_depth.nc")],
     "output_dir": "output/snow_depth",
+    # 雪深，单位: cm (原始数据为 m，需 ×100 转换)
+    # 数据范围: 0 ~ 50 cm
     "gradient": [
         (0, "#00000000"),
         (1, "#ADD8E6"),
