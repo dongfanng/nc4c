@@ -2,6 +2,7 @@
 
 from nc4c.processors.evaporation_canopy_processor import EvaporationCanopyProcessor
 from nc4c.processors.high_vegetation_type_processor import HighVegetationTypeProcessor
+from nc4c.processors.lai_high_vegetation_processor import LAI_High_VegetationProcessor
 from nc4c.processors.lai_low_vegetation_processor import LAI_Low_VegetationProcessor
 from nc4c.processors.low_vegetation_type_processor import LowVegetationTypeProcessor
 from nc4c.processors.potential_evaporation_processor import (
@@ -28,6 +29,7 @@ from nc4c.processors.wind_processor import WindProcessor
 __all__ = [
     "EvaporationCanopyProcessor",
     "HighVegetationTypeProcessor",
+    "LAI_High_VegetationProcessor",
     "LAI_Low_VegetationProcessor",
     "LowVegetationTypeProcessor",
     "PotentialEvaporationProcessor",

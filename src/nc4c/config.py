@@ -237,16 +237,32 @@ LOW_VEGETATION_TYPE = {
 LAI_LOW_VEGETATION = {
     "name": "leaf_area_index_low_vegetation",
     "data_files": [
-        str(DATA_DIR / "Vegetation_data" / "leaf_area_index_low_vegetation.nc")
+        str(DATA_DIR / "vegetation_data" / "leaf_area_index_low_vegetation.nc")
     ],
     "output_dir": "output/lai_low_vegetation",
     "gradient": [
-        (0.0, "#F5F5DC"),
+        (0.0, "#00000000"),
         (0.5, "#90EE90"),
         (1.0, "#32CD32"),
         (2.0, "#228B22"),
         (3.0, "#006400"),
         (4.0, "#004000"),
+    ],
+}
+
+LAI_HIGH_VEGETATION = {
+    "name": "leaf_area_index_high_vegetation",
+    "data_files": [
+        str(DATA_DIR / "vegetation_data" / "leaf_area_index_high_vegetation.nc")
+    ],
+    "output_dir": "output/lai_high_vegetation",
+    "gradient": [
+        (0.0, "#00000000"),
+        (0.5, "#90EE90"),
+        (1.5, "#228B22"),
+        (3.0, "#006400"),
+        (4.5, "#004000"),
+        (6.0, "#002800"),
     ],
 }
 
@@ -265,4 +281,5 @@ ALL_CONFIGS = {
     "high_vegetation_type": HIGH_VEGETATION_TYPE,
     "low_vegetation_type": LOW_VEGETATION_TYPE,
     "lai_low_vegetation": LAI_LOW_VEGETATION,
+    "lai_high_vegetation": LAI_HIGH_VEGETATION,
 }

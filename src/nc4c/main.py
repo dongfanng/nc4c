@@ -19,6 +19,7 @@ def main() -> None:
     """使用默认配置运行"""
     from nc4c.processors import (
         EvaporationCanopyProcessor,
+        LAI_High_VegetationProcessor,
         LAI_Low_VegetationProcessor,
         PM10Processor,
         PotentialEvaporationProcessor,
@@ -49,6 +50,7 @@ def main() -> None:
         # "high_vegetation_type": HighVegetationTypeProcessor,
         # "low_vegetation_type": LowVegetationTypeProcessor,
         "lai_low_vegetation": LAI_Low_VegetationProcessor,
+        "lai_high_vegetation": LAI_High_VegetationProcessor,
     }
 
     total_processors = len(processor_map)
