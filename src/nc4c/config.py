@@ -7,6 +7,8 @@ DATA_DIR: Path = Path(__file__).parent.parent.parent / "data"
 LON_RANGE = (73.0, 135.0)
 LAT_RANGE = (33.0, 53.0)
 
+TIME_RANGE_BEIJING: tuple[str, str] = ("2023-03-19 00:00", "2023-03-24 23:59")
+
 PM10 = {
     "name": "pm10",
     "data_files": [str(p) for p in sorted((DATA_DIR / "pm10_data").glob("*.nc"))],

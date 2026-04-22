@@ -28,6 +28,7 @@ class SnowDepthProcessor(BaseDataProcessor):
         gradient: list[tuple[float, str]],
         lon_range: tuple[float, float] | None = None,
         lat_range: tuple[float, float] | None = None,
+        time_range_beijing: tuple[str, str] | None = None,
     ) -> None:
         """
         Initialize snow depth processor
@@ -39,9 +40,14 @@ class SnowDepthProcessor(BaseDataProcessor):
             gradient: Color gradient list
             lon_range: Longitude range, None for auto-detect
             lat_range: Latitude range, None for auto-detect
+            time_range_beijing: Time range (start, end) in Beijing time (UTC+8)
         """
         super().__init__(
-            name=name, input_paths=input_paths, output_dir=output_dir, gradient=gradient
+            name=name,
+            input_paths=input_paths,
+            output_dir=output_dir,
+            gradient=gradient,
+            time_range_beijing=time_range_beijing,
         )
         self.lon_range = lon_range
         self.lat_range = lat_range
@@ -58,6 +64,7 @@ class SnowDepthProcessor(BaseDataProcessor):
             lon_range=list(self.lon_range) if self.lon_range is not None else None,
             lat_range=list(self.lat_range) if self.lat_range is not None else None,
             missing_value=3.4028234663852886e38,
+            time_range_beijing=self.time_range_beijing,
         )
 
     def process(self, dataset: xr.Dataset) -> xr.DataArray:

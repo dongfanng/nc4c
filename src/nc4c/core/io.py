@@ -30,6 +30,7 @@ def read_netcdf(
     lon_range: list[float] | None = None,
     lat_range: list[float] | None = None,
     missing_value: float | None = None,
+    time_range_beijing: tuple[str, str] | None = None,
 ) -> xr.Dataset:
     """
     读取 NetCDF 文件
@@ -40,6 +41,8 @@ def read_netcdf(
         lon_range: 经度范围 [min, max]
         lat_range: 纬度范围 [min, max]
         missing_value: 缺失值，为 None 时自动从元数据读取
+        time_range_beijing: 时间范围 (开始, 结束)，使用北京时间 (UTC+8)
+                            格式: "YYYY-MM-DD HH:00"，例如 ("2023-03-19 00:00", "2023-03-24 23:00")
 
     Returns:
         合并后的 xarray Dataset
@@ -81,6 +84,9 @@ def read_netcdf(
         )
     )
     combined = _replace_missing(combined, missing_value=final_missing)
+
+    if time_range_beijing is not None:
+        combined = _filter_by_time_beijing(combined, time_range_beijing)
 
     return combined
 
@@ -218,6 +224,32 @@ def _replace_missing(
         替换后的数据集
     """
     return dataset.where(dataset != missing_value)  # 缺失值 → nan
+
+
+def _filter_by_time_beijing(
+    dataset: xr.Dataset,
+    time_range_beijing: tuple[str, str],
+) -> xr.Dataset:
+    """
+    按北京时间过滤数据
+
+    Args:
+        dataset: 输入数据集
+        time_range_beijing: 时间范围 (开始, 结束)，使用北京时间 (UTC+8)
+                            格式: "YYYY-MM-DD HH:00"
+
+    Returns:
+        过滤后的数据集
+    """
+    import numpy as np
+
+    start_bj, end_bj = time_range_beijing
+    start_utc = np.datetime64(start_bj) - np.timedelta64(8, "h")
+    end_utc = np.datetime64(end_bj) - np.timedelta64(8, "h")
+
+    time_coord = dataset.coords["time"].values
+    mask = (time_coord >= start_utc) & (time_coord <= end_utc)
+    return dataset.isel(time=np.where(mask)[0])
 
 
 def get_time_range(dataset: xr.Dataset) -> tuple[Any, Any]:

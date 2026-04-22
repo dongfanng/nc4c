@@ -23,6 +23,7 @@ class BaseDataProcessor(ABC):
         output_dir: str,
         gradient: list[tuple[float, str]] | None = None,
         discrete: bool = False,
+        time_range_beijing: tuple[str, str] | None = None,
     ) -> None:
         """
         初始化处理器
@@ -33,12 +34,15 @@ class BaseDataProcessor(ABC):
             output_dir: 输出目录
             gradient: 颜色渐变列表，用于创建色图
             discrete: 是否为离散分类模式（默认 False）
+            time_range_beijing: 时间范围 (开始, 结束)，使用北京时间 (UTC+8)
+                                格式: "YYYY-MM-DD HH:00"
         """
         self.name = name
         self.input_paths = input_paths
         self.output_dir = output_dir
         self.gradient = gradient
         self.discrete = discrete
+        self.time_range_beijing = time_range_beijing
 
     def run(self) -> list[Path]:
         """

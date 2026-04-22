@@ -24,6 +24,7 @@ class SurfaceNetSolarRadiationProcessor(BaseDataProcessor):
         gradient: list[tuple[float, str]],
         lon_range: tuple[float, float] | None = None,
         lat_range: tuple[float, float] | None = None,
+        time_range_beijing: tuple[str, str] | None = None,
     ) -> None:
         """
         初始化表面净短波辐射处理器
@@ -35,9 +36,14 @@ class SurfaceNetSolarRadiationProcessor(BaseDataProcessor):
             gradient: 颜色渐变列表
             lon_range: 经度范围，None 时由渲染器自动从数据坐标确定
             lat_range: 纬度范围，None 时由渲染器自动从数据坐标确定
+            time_range_beijing: 时间范围 (开始, 结束)，使用北京时间 (UTC+8)
         """
         super().__init__(
-            name=name, input_paths=input_paths, output_dir=output_dir, gradient=gradient
+            name=name,
+            input_paths=input_paths,
+            output_dir=output_dir,
+            gradient=gradient,
+            time_range_beijing=time_range_beijing,
         )
         self.lon_range = lon_range
         self.lat_range = lat_range
@@ -54,6 +60,7 @@ class SurfaceNetSolarRadiationProcessor(BaseDataProcessor):
             lon_range=list(self.lon_range) if self.lon_range is not None else None,
             lat_range=list(self.lat_range) if self.lat_range is not None else None,
             missing_value=3.4028234663852886e38,
+            time_range_beijing=self.time_range_beijing,
         )
 
     def process(self, dataset: xr.Dataset) -> xr.DataArray:

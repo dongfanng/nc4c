@@ -280,23 +280,33 @@ class [DataType]Processor(BaseDataProcessor):
 
     def __init__(
         self,
+        name: str,
         input_paths: list[str],
         output_dir: str,
         gradient: list[tuple[float, str]],
         lon_range: tuple[float, float] | None = None,
         lat_range: tuple[float, float] | None = None,
+        time_range_beijing: tuple[str, str] | None = None,
     ) -> None:
         """
         Initialize [DataType] processor
 
         Args:
+            name: Processor name
             input_paths: Input file paths
             output_dir: Output directory
             gradient: Color gradient list
             lon_range: Longitude range, None for auto-detect
             lat_range: Latitude range, None for auto-detect
+            time_range_beijing: Time range (start, end) in Beijing time (UTC+8)
         """
-        super().__init__(input_paths=input_paths, output_dir=output_dir, gradient=gradient)
+        super().__init__(
+            name=name,
+            input_paths=input_paths,
+            output_dir=output_dir,
+            gradient=gradient,
+            time_range_beijing=time_range_beijing,
+        )
         self.lon_range = lon_range
         self.lat_range = lat_range
 
@@ -316,6 +326,7 @@ class [DataType]Processor(BaseDataProcessor):
             lon_range=list(self.lon_range) if self.lon_range is not None else None,
             lat_range=list(self.lat_range) if self.lat_range is not None else None,
             missing_value=9.9999999e14,  # or from CDL
+            time_range_beijing=self.time_range_beijing,
         )
 
     def process(self, dataset: xr.Dataset) -> xr.DataArray:
