@@ -34,6 +34,7 @@ def main() -> None:
         HighVegetationTypeProcessor,
         LowVegetationTypeProcessor,
         TotalPrecipitationProcessor,
+        SoilMoistureProcessor,
     )
 
     processor_map = {
@@ -52,7 +53,8 @@ def main() -> None:
         # "low_vegetation_type": LowVegetationTypeProcessor,
         # "lai_low_vegetation": LAI_Low_VegetationProcessor,
         # "lai_high_vegetation": LAI_High_VegetationProcessor,
-        "total_precipitation": TotalPrecipitationProcessor,
+        # "total_precipitation": TotalPrecipitationProcessor,
+        "volumetric_soil_water_layer_1": SoilMoistureProcessor,
     }
 
     total_processors = len(processor_map)

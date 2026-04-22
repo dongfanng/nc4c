@@ -279,6 +279,25 @@ TOTAL_PRECIPITATION = {
     ],
 }
 
+SOIL_MOISTURE = {
+    "name": "volumetric_soil_water_layer_1",
+    "data_files": [str(DATA_DIR / "raw_met_data" / "volumetric_soil_water_layer_1.nc")],
+    "output_dir": "output/volumetric_soil_water_layer_1",
+    "gradient": [
+        (0.00, "#F5F5F5"),
+        (0.05, "#E0F2FE"),
+        (0.10, "#BAE6FD"),
+        (0.15, "#7DD3FC"),
+        (0.20, "#38BDF8"),
+        (0.25, "#0EA5E9"),
+        (0.30, "#0284C7"),
+        (0.35, "#0369A1"),
+        (0.40, "#075985"),
+        (0.45, "#0C4A6E"),
+        (0.50, "#082F49"),
+    ],
+}
+
 ALL_CONFIGS = {
     "pm10": PM10,
     "t2m": T2M,
@@ -296,4 +315,5 @@ ALL_CONFIGS = {
     "lai_low_vegetation": LAI_LOW_VEGETATION,
     "lai_high_vegetation": LAI_HIGH_VEGETATION,
     "total_precipitation": TOTAL_PRECIPITATION,
+    "volumetric_soil_water_layer_1": SOIL_MOISTURE,
 }
