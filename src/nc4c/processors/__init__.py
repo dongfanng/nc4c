@@ -5,6 +5,9 @@ from nc4c.processors.potential_evaporation_processor import (
     PotentialEvaporationProcessor,
 )
 from nc4c.processors.pm10_processor import PM10Processor
+from nc4c.processors.surface_latent_heat_flux_processor import (
+    SurfaceLatentHeatFluxProcessor,
+)
 from nc4c.processors.temperature_processor import TemperatureProcessor
 from nc4c.processors.total_evaporation_processor import TotalEvaporationProcessor
 from nc4c.processors.vegetation_transpiration_processor import (
@@ -16,6 +19,7 @@ __all__ = [
     "EvaporationCanopyProcessor",
     "PotentialEvaporationProcessor",
     "PM10Processor",
+    "SurfaceLatentHeatFluxProcessor",
     "TemperatureProcessor",
     "TotalEvaporationProcessor",
     "VegetationTranspirationProcessor",

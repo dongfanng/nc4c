@@ -50,7 +50,9 @@ T2M = {
 
 POTENTIAL_EVAPORATION = {
     "name": "potential_evaporation",
-    "data_files": [str(DATA_DIR / "evaporation_and_runoff" / "potential_evaporation.nc")],
+    "data_files": [
+        str(DATA_DIR / "evaporation_and_runoff" / "potential_evaporation.nc")
+    ],
     "output_dir": "output/potential_evaporation",
     "gradient": [
         (-6, "#8c510a"),
@@ -64,7 +66,13 @@ POTENTIAL_EVAPORATION = {
 
 EVAPORATION_CANOPY = {
     "name": "evaporation_from_the_top_of_canopy",
-    "data_files": [str(DATA_DIR / "evaporation_and_runoff" / "evaporation_from_the_top_of_canopy.nc")],
+    "data_files": [
+        str(
+            DATA_DIR
+            / "evaporation_and_runoff"
+            / "evaporation_from_the_top_of_canopy.nc"
+        )
+    ],
     "output_dir": "output/evaporation_canopy",
     "gradient": [
         (-0.5, "#8c510a"),
@@ -78,7 +86,13 @@ EVAPORATION_CANOPY = {
 
 VEGETATION_TRANSPIRATION = {
     "name": "evaporation_from_vegetation_transpiration",
-    "data_files": [str(DATA_DIR / "evaporation_and_runoff" / "evaporation_from_vegetation_transpiration.nc")],
+    "data_files": [
+        str(
+            DATA_DIR
+            / "evaporation_and_runoff"
+            / "evaporation_from_vegetation_transpiration.nc"
+        )
+    ],
     "output_dir": "output/vegetation_transpiration",
     "gradient": [
         (-5, "#8c510a"),
@@ -107,8 +121,29 @@ TOTAL_EVAPORATION = {
 
 WIND = {
     "name": "10m_u_component_of_wind-10m_v_component_of_wind",
-    "data_files": [str(DATA_DIR / "raw_met_data" / "10m_u_component_of_wind 10m_v_component_of_wind.nc")],
+    "data_files": [
+        str(
+            DATA_DIR
+            / "raw_met_data"
+            / "10m_u_component_of_wind 10m_v_component_of_wind.nc"
+        )
+    ],
     "output_dir": "output/wind",
+}
+
+LATENT_HEAT_FLUX = {
+    "name": "surface_latent_heat_flux",
+    "data_files": [
+        str(DATA_DIR / "radiation_and_heat" / "surface_latent_heat_flux.nc")
+    ],
+    "output_dir": "output/surface_latent_heat_flux",
+    "gradient": [
+        (-5500000, "#8c510a"),
+        (-400000, "#d8b365"),
+        (-50000, "#f6e8c3"),
+        (0, "#00000000"),
+        (20000, "#35978f"),
+    ],
 }
 
 ALL_CONFIGS = {
@@ -119,4 +154,5 @@ ALL_CONFIGS = {
     "vegetation_transpiration": VEGETATION_TRANSPIRATION,
     "total_evaporation": TOTAL_EVAPORATION,
     "wind": WIND,
+    "latent_heat_flux": LATENT_HEAT_FLUX,
 }

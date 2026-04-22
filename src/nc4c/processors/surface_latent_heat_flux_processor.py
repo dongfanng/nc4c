@@ -1,20 +1,20 @@
-"""植被蒸腾数据处理器"""
+"""表面潜热通量数据处理器"""
 
 from pathlib import Path
 
 import xarray as xr
 
 from nc4c.core import BaseDataProcessor, read_netcdf
-from nc4c.data_models.vegetation_transpiration import (
+from nc4c.data_models.surface_latent_heat_flux import (
     VARIABLE_NAME,
-    calculate_evaporation,
+    calculate_latent_heat_flux,
 )
 from nc4c.utils.datetime_utils import format_timestamp_filename
 from nc4c.visualization import create_colormap_and_norm, render_image
 
 
-class VegetationTranspirationProcessor(BaseDataProcessor):
-    """植被蒸腾图像生成处理器"""
+class SurfaceLatentHeatFluxProcessor(BaseDataProcessor):
+    """表面潜热通量图像生成处理器"""
 
     def __init__(
         self,
@@ -26,7 +26,7 @@ class VegetationTranspirationProcessor(BaseDataProcessor):
         lat_range: tuple[float, float] | None = None,
     ) -> None:
         """
-        初始化植被蒸腾处理器
+        初始化表面潜热通量处理器
 
         Args:
             name: 处理器名称
@@ -57,14 +57,14 @@ class VegetationTranspirationProcessor(BaseDataProcessor):
         )
 
     def process(self, dataset: xr.Dataset) -> xr.DataArray:
-        """计算植被蒸腾 (m → mm)"""
-        return calculate_evaporation(
+        """计算表面潜热通量 (J/m² → W/m²)"""
+        return calculate_latent_heat_flux(
             dataset=dataset,
             variables=VARIABLE_NAME,
         )
 
     def save(self, data: xr.DataArray, output_dir: str) -> list[Path]:
-        """生成植被蒸腾图像"""
+        """生成表面潜热通量图像"""
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
 

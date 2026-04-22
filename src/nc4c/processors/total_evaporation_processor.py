@@ -73,9 +73,7 @@ class TotalEvaporationProcessor(BaseDataProcessor):
 
         for time_idx in range(n_times):
             timestamp = data.coords["time"].values[time_idx]
-            output_file = format_timestamp_filename(
-                output_path, timestamp
-            )
+            output_file = format_timestamp_filename(output_path, timestamp)
 
             render_image(
                 data=data,

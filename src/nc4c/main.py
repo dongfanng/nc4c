@@ -21,6 +21,7 @@ def main() -> None:
         EvaporationCanopyProcessor,
         PM10Processor,
         PotentialEvaporationProcessor,
+        SurfaceLatentHeatFluxProcessor,
         TemperatureProcessor,
         TotalEvaporationProcessor,
         VegetationTranspirationProcessor,
@@ -35,10 +36,13 @@ def main() -> None:
         # "potential_evaporation": PotentialEvaporationProcessor,
         # "total_evaporation": TotalEvaporationProcessor,
         # "wind": WindProcessor,
+        "latent_heat_flux": SurfaceLatentHeatFluxProcessor,
     }
 
     for key, processor_cls in processor_map.items():
         config = ALL_CONFIGS[key]
         processor = create_processor(processor_cls, config)
         generated = processor.run()
-        print(f"Generated {len(generated)} {config['name']} images in {config['output_dir']}")
+        print(
+            f"Generated {len(generated)} {config['name']} images in {config['output_dir']}"
+        )
