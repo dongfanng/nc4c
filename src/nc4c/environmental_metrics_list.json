@@ -81,6 +81,18 @@
       ]
     },
     {
+      "key": "surface_net_solar_radiation",
+      "label": "地表净太阳辐射",
+      "unit": "J/m²",
+      "colorRange": [
+        { "value": 0, "color": "#00000000" },
+        { "value": 5000000, "color": "#F6E8C3" },
+        { "value": 10000000, "color": "#E8DC19" },
+        { "value": 15000000, "color": "#EAB939" },
+        { "value": 22000000, "color": "#721638" }
+      ]
+    },
+    {
       "key": "surface_sensible_heat_flux",
       "label": "地表感热通量",
       "unit": "J/m²",
