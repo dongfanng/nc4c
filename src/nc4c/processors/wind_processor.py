@@ -177,9 +177,9 @@ class WindProcessor(BaseDataProcessor):
                 output_path, timestamp, suffix="json"
             )
             ts_str = output_file.stem
-            date_part, time_part = ts_str.split("_")
+            date_part, time_part = ts_str.split("T")
             year, month, day = date_part.split("-")
-            hour, minute, second = time_part.split("-")
+            hour, minute, second = time_part.replace("Z", "").split("_")
             time_str = f"{year}.{month}.{day} {hour}:{minute}:{second}"
 
             # 当前逐小数据单独切分为文件,refTime 为当前时间,UTC 时间
