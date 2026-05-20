@@ -10,9 +10,9 @@ LAT_RANGE = (33.0, 53.0)
 TIME_RANGE_BEIJING: tuple[str, str] = ("2023-03-19 00:00", "2023-03-24 23:59")
 
 PM10 = {
-    "name": "pm10",
+    "name": "PM10",
     "data_files": [str(p) for p in sorted((DATA_DIR / "pm10_data").glob("*.nc"))],
-    "output_dir": "output/pm10",
+    "output_dir": "output/PM10",
     # PM10 质量浓度，单位: μg/m³
     # 数据范围: 0 ~ 300 μg/m³ (中国标准: 75=良, 150=轻度污染, 250=重度)
     "gradient": [
@@ -62,11 +62,12 @@ POTENTIAL_EVAPORATION = {
     "output_dir": "output/potential_evaporation",
     # 潜在蒸发量，单位: mm (原始数据为 m，需 ×1000 转换)
     # 负值=蒸发(放热)，正值=凝结(吸热)
-    # 数据范围: -6 ~ 0.8 mm
+    # 数据范围: -52.1 ~ 0.8 mm
     "gradient": [
-        (-6, "#8c510a"),
-        (-2, "#d8b365"),
-        (-0.1, "#f6e8c3"),
+        (-52, "#5D3A1A"),
+        (-30, "#8c510a"),
+        (-10, "#d8b365"),
+        (-1, "#f6e8c3"),
         (0, "#00000000"),
         (0.001, "#c7eae5"),
         (0.8, "#35978f"),
@@ -82,17 +83,18 @@ EVAPORATION_CANOPY = {
             / "evaporation_from_the_top_of_canopy.nc"
         )
     ],
-    "output_dir": "output/evaporation_canopy",
+    "output_dir": "output/evaporation_from_top_of_canopy",
     # 冠层顶部蒸发量，单位: mm (原始数据为 m，需 ×1000 转换)
     # 负值=蒸发，正值=凝结
-    # 数据范围: -0.5 ~ 0.01 mm
+    # 数据范围: -10.2 ~ 0.2 mm
     "gradient": [
-        (-0.5, "#8c510a"),
-        (-0.1, "#d8b365"),
-        (-0.001, "#f6e8c3"),
+        (-10, "#5D3A1A"),
+        (-5, "#8c510a"),
+        (-1, "#d8b365"),
+        (-0.1, "#f6e8c3"),
         (0, "#00000000"),
         (0.001, "#c7eae5"),
-        (0.01, "#35978f"),
+        (0.2, "#35978f"),
     ],
 }
 
@@ -105,7 +107,7 @@ VEGETATION_TRANSPIRATION = {
             / "evaporation_from_vegetation_transpiration.nc"
         )
     ],
-    "output_dir": "output/vegetation_transpiration",
+    "output_dir": "output/evaporation_from_vegetation_transpiration",
     # 植被蒸腾量，单位: mm (原始数据为 m，需 ×1000 转换)
     # 负值=蒸发，正值=凝结
     # 数据范围: -5 ~ 5 mm
@@ -126,11 +128,12 @@ TOTAL_EVAPORATION = {
     "output_dir": "output/total_evaporation",
     # 总蒸发量，单位: mm (原始数据为 m，需 ×1000 转换)
     # 负值=蒸发，正值=凝结
-    # 数据范围: -1.5 ~ 1.8 mm
+    # 数据范围: -10.5 ~ 1.8 mm
     "gradient": [
-        (-1.5, "#8c510a"),
-        (-0.3, "#d8b365"),
-        (-0.01, "#f6e8c3"),
+        (-10, "#5D3A1A"),
+        (-5, "#8c510a"),
+        (-1, "#d8b365"),
+        (-0.1, "#f6e8c3"),
         (0, "#00000000"),
         (0.005, "#c7eae5"),
         (1.8, "#35978f"),
@@ -226,7 +229,7 @@ SOIL_TYPE = {
 HIGH_VEGETATION_TYPE = {
     "name": "high_vegetation_type",
     "data_files": [str(DATA_DIR / "invariant_data" / "type_of_high_vegetation.nc")],
-    "output_dir": "output/high_vegetation_type",
+    "output_dir": "output/type_of_high_vegetation",
     "discrete": True,
     # 高植被类型，单位: GRIB Code table 4.234 (无量纲)
     # 3=常绿针叶, 4=落叶针叶, 5=落叶阔叶, 6=常绿阔叶, 18=混交林, 19=间断森林
@@ -244,7 +247,7 @@ HIGH_VEGETATION_TYPE = {
 LOW_VEGETATION_TYPE = {
     "name": "low_vegetation_type",
     "data_files": [str(DATA_DIR / "invariant_data" / "type_of_low_vegetation.nc")],
-    "output_dir": "output/low_vegetation_type",
+    "output_dir": "output/type_of_low_vegetation",
     "discrete": True,
     # 低植被类型，单位: GRIB Code table 4.234 (无量纲)
     # 0=无植被, 1=农田, 2=草地, 7=高草, 9=苔原, 10=灌溉农田, 11=半荒漠, 13=沼泽, 16=常绿灌木, 17=落叶灌木
@@ -272,7 +275,7 @@ LAI_LOW_VEGETATION = {
     "data_files": [
         str(DATA_DIR / "vegetation_data" / "leaf_area_index_low_vegetation.nc")
     ],
-    "output_dir": "output/lai_low_vegetation",
+    "output_dir": "output/leaf_area_index_low_vegetation",
     # 低植被叶面积指数，单位: m²/m² (无量纲)
     # 表示单位面积上叶片单面面积，数据范围: 0 ~ 4
     "gradient": [
@@ -290,7 +293,7 @@ LAI_HIGH_VEGETATION = {
     "data_files": [
         str(DATA_DIR / "vegetation_data" / "leaf_area_index_high_vegetation.nc")
     ],
-    "output_dir": "output/lai_high_vegetation",
+    "output_dir": "output/leaf_area_index_high_vegetation",
     # 高植被叶面积指数，单位: m²/m² (无量纲)
     # 表示单位面积上叶片单面面积，数据范围: 0 ~ 6
     "gradient": [
@@ -360,14 +363,23 @@ SNOW_DEPTH = {
     "data_files": [str(DATA_DIR / "raw_met_data" / "snow_depth.nc")],
     "output_dir": "output/snow_depth",
     # 雪深，单位: cm (原始数据为 m，需 ×100 转换)
-    # 数据范围: 0 ~ 50 cm
+    # 数据范围: 0 ~ 200 cm
     "gradient": [
         (0, "#00000000"),
-        (1, "#ADD8E6"),
-        (5, "#00BFFF"),
-        (10, "#0000FF"),
-        (20, "#00008B"),
-        (50, "#000080"),
+        (1, "#96CCF6AB"),
+        (5, "#3280BEE8"),
+        (10, "#2E57BA"),
+        (15, "#5450B3"),
+        (20, "#3C359C"),
+        (25, "#2E2270"),
+        (30, "#1A0D64"),
+        (40, "#910991"),
+        (50, "#B400B4"),
+        (60, "#D200D2"),
+        (80, "#C67FC6"),
+        (100, "#E3D0E3"),
+        (150, "#EBEEEE"),
+        (200, "#FFFFFF"),
     ],
 }
 

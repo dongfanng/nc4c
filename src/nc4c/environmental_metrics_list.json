@@ -7,252 +7,898 @@
       "label": "2米温度",
       "unit": "°C",
       "colorRange": [
-        { "value": -40, "color": "#E6E6E6" },
-        { "value": -30, "color": "#FFAAFF" },
-        { "value": -20, "color": "#910991" },
-        { "value": -15, "color": "#24186A" },
-        { "value": -10, "color": "#554EB1" },
-        { "value": -5, "color": "#3E79C6" },
-        { "value": 0, "color": "#4BB698" },
-        { "value": 5, "color": "#59D049" },
-        { "value": 10, "color": "#BEE43D" },
-        { "value": 15, "color": "#EBD735" },
-        { "value": 20, "color": "#EAA43E" },
-        { "value": 25, "color": "#E56D53" },
-        { "value": 30, "color": "#BE3066" },
-        { "value": 40, "color": "#6B1527" },
-        { "value": 50, "color": "#2B0001" }
-      ]
+        {
+          "value": -40,
+          "color": "#E6E6E6"
+        },
+        {
+          "value": -30,
+          "color": "#FFAAFF"
+        },
+        {
+          "value": -20,
+          "color": "#910991"
+        },
+        {
+          "value": -15,
+          "color": "#24186A"
+        },
+        {
+          "value": -10,
+          "color": "#554EB1"
+        },
+        {
+          "value": -5,
+          "color": "#3E79C6"
+        },
+        {
+          "value": 0,
+          "color": "#4BB698"
+        },
+        {
+          "value": 5,
+          "color": "#59D049"
+        },
+        {
+          "value": 10,
+          "color": "#BEE43D"
+        },
+        {
+          "value": 15,
+          "color": "#EBD735"
+        },
+        {
+          "value": 20,
+          "color": "#EAA43E"
+        },
+        {
+          "value": 25,
+          "color": "#E56D53"
+        },
+        {
+          "value": 30,
+          "color": "#BE3066"
+        },
+        {
+          "value": 40,
+          "color": "#6B1527"
+        },
+        {
+          "value": 50,
+          "color": "#2B0001"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "soil_temperature_level_1",
       "label": "土壤温度 层1",
       "unit": "°C",
       "colorRange": [
-        { "value": -15, "color": "#2B2D6B" },
-        { "value": -5, "color": "#3D82D4" },
-        { "value": 5, "color": "#C8DDF6" },
-        { "value": 15, "color": "#EDE787" },
-        { "value": 25, "color": "#E8DC19" },
-        { "value": 30, "color": "#E15E5D" }
-      ]
+        {
+          "value": -15,
+          "color": "#2B2D6B"
+        },
+        {
+          "value": -5,
+          "color": "#3D82D4"
+        },
+        {
+          "value": 5,
+          "color": "#C8DDF6"
+        },
+        {
+          "value": 15,
+          "color": "#EDE787"
+        },
+        {
+          "value": 25,
+          "color": "#E8DC19"
+        },
+        {
+          "value": 30,
+          "color": "#E15E5D"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "snow_depth",
       "label": "雪深",
       "unit": "cm",
       "colorRange": [
-        { "value": 0, "color": "#00000000" },
-        { "value": 1, "color": "#ADD8E6" },
-        { "value": 5, "color": "#00BFFF" },
-        { "value": 10, "color": "#0000FF" },
-        { "value": 20, "color": "#00008B" },
-        { "value": 50, "color": "#000080" }
-      ]
+        {
+          "value": 0,
+          "color": "#00000000"
+        },
+        {
+          "value": 1,
+          "color": "#96CCF6AB"
+        },
+        {
+          "value": 5,
+          "color": "#3280BEE8"
+        },
+        {
+          "value": 10,
+          "color": "#2E57BA"
+        },
+        {
+          "value": 15,
+          "color": "#5450B3"
+        },
+        {
+          "value": 20,
+          "color": "#3C359C"
+        },
+        {
+          "value": 25,
+          "color": "#2E2270"
+        },
+        {
+          "value": 30,
+          "color": "#1A0D64"
+        },
+        {
+          "value": 40,
+          "color": "#910991"
+        },
+        {
+          "value": 50,
+          "color": "#B400B4"
+        },
+        {
+          "value": 60,
+          "color": "#D200D2"
+        },
+        {
+          "value": 80,
+          "color": "#C67FC6"
+        },
+        {
+          "value": 100,
+          "color": "#E3D0E3"
+        },
+        {
+          "value": 150,
+          "color": "#EBEEEE"
+        },
+        {
+          "value": 200,
+          "color": "#FFFFFF"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "volumetric_soil_water_layer_1",
       "label": "土壤体积含水量 层1",
       "unit": "m³/m³",
       "colorRange": [
-        { "value": 0, "color": "#F5F5F5" },
-        { "value": 0.05, "color": "#E0F2FE" },
-        { "value": 0.1, "color": "#BAE6FD" },
-        { "value": 0.15, "color": "#7DD3FC" },
-        { "value": 0.2, "color": "#38BDF8" },
-        { "value": 0.25, "color": "#0EA5E9" },
-        { "value": 0.3, "color": "#0284C7" },
-        { "value": 0.35, "color": "#0369A1" },
-        { "value": 0.4, "color": "#075985" },
-        { "value": 0.45, "color": "#0C4A6E" },
-        { "value": 0.5, "color": "#082F49" }
-      ]
+        {
+          "value": 0,
+          "color": "#F5F5F5"
+        },
+        {
+          "value": 0.05,
+          "color": "#E0F2FE"
+        },
+        {
+          "value": 0.1,
+          "color": "#BAE6FD"
+        },
+        {
+          "value": 0.15,
+          "color": "#7DD3FC"
+        },
+        {
+          "value": 0.2,
+          "color": "#38BDF8"
+        },
+        {
+          "value": 0.25,
+          "color": "#0EA5E9"
+        },
+        {
+          "value": 0.3,
+          "color": "#0284C7"
+        },
+        {
+          "value": 0.35,
+          "color": "#0369A1"
+        },
+        {
+          "value": 0.4,
+          "color": "#075985"
+        },
+        {
+          "value": 0.45,
+          "color": "#0C4A6E"
+        },
+        {
+          "value": 0.5,
+          "color": "#082F49"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "surface_latent_heat_flux",
       "label": "地表潜热通量",
       "unit": "J/m²",
       "colorRange": [
-        { "value": -5500000, "color": "#8c510a" },
-        { "value": -400000, "color": "#d8b365" },
-        { "value": -50000, "color": "#f6e8c3" },
-        { "value": 0, "color": "#00000000" },
-        { "value": 20000, "color": "#35978f" }
-      ]
+        {
+          "value": -5500000,
+          "color": "#8c510a"
+        },
+        {
+          "value": -400000,
+          "color": "#d8b365"
+        },
+        {
+          "value": -50000,
+          "color": "#f6e8c3"
+        },
+        {
+          "value": 0,
+          "color": "#00000000"
+        },
+        {
+          "value": 20000,
+          "color": "#35978f"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "surface_net_solar_radiation",
       "label": "地表净太阳辐射",
       "unit": "J/m²",
       "colorRange": [
-        { "value": 0, "color": "#00000000" },
-        { "value": 5000000, "color": "#F6E8C3" },
-        { "value": 10000000, "color": "#E8DC19" },
-        { "value": 15000000, "color": "#EAB939" },
-        { "value": 22000000, "color": "#721638" }
-      ]
+        {
+          "value": 0,
+          "color": "#00000000"
+        },
+        {
+          "value": 5000000,
+          "color": "#F6E8C3"
+        },
+        {
+          "value": 10000000,
+          "color": "#E8DC19"
+        },
+        {
+          "value": 15000000,
+          "color": "#EAB939"
+        },
+        {
+          "value": 22000000,
+          "color": "#721638"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "surface_sensible_heat_flux",
       "label": "地表感热通量",
       "unit": "J/m²",
       "colorRange": [
-        { "value": -13000000, "color": "#8c510a" },
-        { "value": -4000000, "color": "#d8b365" },
-        { "value": -50000, "color": "#f6e8c3" },
-        { "value": 0, "color": "#00000000" },
-        { "value": 500000, "color": "#35978f" }
-      ]
+        {
+          "value": -13000000,
+          "color": "#8c510a"
+        },
+        {
+          "value": -4000000,
+          "color": "#d8b365"
+        },
+        {
+          "value": -50000,
+          "color": "#f6e8c3"
+        },
+        {
+          "value": 0,
+          "color": "#00000000"
+        },
+        {
+          "value": 500000,
+          "color": "#35978f"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "potential_evaporation",
       "label": "潜在蒸发量",
       "unit": "mm",
       "colorRange": [
-        { "value": -6, "color": "#8c510a" },
-        { "value": -2, "color": "#d8b365" },
-        { "value": -0.1, "color": "#f6e8c3" },
-        { "value": 0, "color": "#00000000" },
-        { "value": 0.001, "color": "#c7eae5" },
-        { "value": 0.8, "color": "#35978f" }
-      ]
+        {
+          "value": -52,
+          "color": "#5D3A1A"
+        },
+        {
+          "value": -30,
+          "color": "#8c510a"
+        },
+        {
+          "value": -10,
+          "color": "#d8b365"
+        },
+        {
+          "value": -1,
+          "color": "#f6e8c3"
+        },
+        {
+          "value": 0,
+          "color": "#00000000"
+        },
+        {
+          "value": 0.001,
+          "color": "#c7eae5"
+        },
+        {
+          "value": 0.8,
+          "color": "#35978f"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "evaporation_from_top_of_canopy",
       "label": "冠层顶部蒸发",
       "unit": "mm",
       "colorRange": [
-        { "value": -0.5, "color": "#8c510a" },
-        { "value": -0.1, "color": "#d8b365" },
-        { "value": -0.001, "color": "#f6e8c3" },
-        { "value": 0, "color": "#00000000" },
-        { "value": 0.001, "color": "#c7eae5" },
-        { "value": 0.01, "color": "#35978f" }
-      ]
+        {
+          "value": -10,
+          "color": "#5D3A1A"
+        },
+        {
+          "value": -5,
+          "color": "#8c510a"
+        },
+        {
+          "value": -1,
+          "color": "#d8b365"
+        },
+        {
+          "value": -0.1,
+          "color": "#f6e8c3"
+        },
+        {
+          "value": 0,
+          "color": "#00000000"
+        },
+        {
+          "value": 0.001,
+          "color": "#c7eae5"
+        },
+        {
+          "value": 0.2,
+          "color": "#35978f"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "evaporation_from_vegetation_transpiration",
       "label": "植被蒸腾蒸发",
       "unit": "mm",
       "colorRange": [
-        { "value": -5, "color": "#8c510a" },
-        { "value": -2.5, "color": "#d8b365" },
-        { "value": -0.5, "color": "#f6e8c3" },
-        { "value": -0.00001, "color": "#00000000" },
-        { "value": 0.00001, "color": "#00000000" },
-        { "value": 2, "color": "#c7eae5" },
-        { "value": 5, "color": "#35978f" }
-      ]
+        {
+          "value": -5,
+          "color": "#8c510a"
+        },
+        {
+          "value": -2.5,
+          "color": "#d8b365"
+        },
+        {
+          "value": -0.5,
+          "color": "#f6e8c3"
+        },
+        {
+          "value": -0.00001,
+          "color": "#00000000"
+        },
+        {
+          "value": 0.00001,
+          "color": "#00000000"
+        },
+        {
+          "value": 2,
+          "color": "#c7eae5"
+        },
+        {
+          "value": 5,
+          "color": "#35978f"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "total_evaporation",
       "label": "总蒸发量",
       "unit": "mm",
       "colorRange": [
-        { "value": -1.5, "color": "#8c510a" },
-        { "value": -0.3, "color": "#d8b365" },
-        { "value": -0.01, "color": "#f6e8c3" },
-        { "value": 0, "color": "#00000000" },
-        { "value": 0.005, "color": "#c7eae5" },
-        { "value": 1.8, "color": "#35978f" }
-      ]
+        {
+          "value": -10,
+          "color": "#5D3A1A"
+        },
+        {
+          "value": -5,
+          "color": "#8c510a"
+        },
+        {
+          "value": -1,
+          "color": "#d8b365"
+        },
+        {
+          "value": -0.1,
+          "color": "#f6e8c3"
+        },
+        {
+          "value": 0,
+          "color": "#00000000"
+        },
+        {
+          "value": 0.005,
+          "color": "#c7eae5"
+        },
+        {
+          "value": 1.8,
+          "color": "#35978f"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "total_precipitation",
       "label": "总降水量",
       "unit": "mm",
       "colorRange": [
-        { "value": 0, "color": "#00000000" },
-        { "value": 0.1, "color": "#C8E3F5" },
-        { "value": 1, "color": "#75B4F0" },
-        { "value": 5, "color": "#2E6AB3" },
-        { "value": 10, "color": "#1A3A6B" }
-      ]
+        {
+          "value": 0,
+          "color": "#00000000"
+        },
+        {
+          "value": 0.1,
+          "color": "#C8E3F5"
+        },
+        {
+          "value": 1,
+          "color": "#75B4F0"
+        },
+        {
+          "value": 5,
+          "color": "#2E6AB3"
+        },
+        {
+          "value": 10,
+          "color": "#1A3A6B"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "leaf_area_index_high_vegetation",
       "label": "高植被叶面积指数",
       "unit": "m²/m²",
       "colorRange": [
-        { "value": 0, "color": "#00000000" },
-        { "value": 0.5, "color": "#90EE90" },
-        { "value": 1.5, "color": "#228B22" },
-        { "value": 3, "color": "#006400" },
-        { "value": 4.5, "color": "#004000" },
-        { "value": 6, "color": "#002800" }
-      ]
+        {
+          "value": 0,
+          "color": "#00000000"
+        },
+        {
+          "value": 0.5,
+          "color": "#90EE90"
+        },
+        {
+          "value": 1.5,
+          "color": "#228B22"
+        },
+        {
+          "value": 3,
+          "color": "#006400"
+        },
+        {
+          "value": 4.5,
+          "color": "#004000"
+        },
+        {
+          "value": 6,
+          "color": "#002800"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "leaf_area_index_low_vegetation",
       "label": "低植被叶面积指数",
       "unit": "m²/m²",
       "colorRange": [
-        { "value": 0, "color": "#00000000" },
-        { "value": 0.5, "color": "#90EE90" },
-        { "value": 1, "color": "#32CD32" },
-        { "value": 2, "color": "#228B22" },
-        { "value": 3, "color": "#006400" },
-        { "value": 4, "color": "#004000" }
-      ]
+        {
+          "value": 0,
+          "color": "#00000000"
+        },
+        {
+          "value": 0.5,
+          "color": "#90EE90"
+        },
+        {
+          "value": 1,
+          "color": "#32CD32"
+        },
+        {
+          "value": 2,
+          "color": "#228B22"
+        },
+        {
+          "value": 3,
+          "color": "#006400"
+        },
+        {
+          "value": 4,
+          "color": "#004000"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
     },
     {
       "key": "soil_type",
       "label": "土壤类型",
       "unit": "discrete",
       "colorRange": [
-        { "value": 1, "color": "#F5DEB3", "describe": "Coarse" },
-        { "value": 2, "color": "#C8A96E", "describe": "Medium" },
-        { "value": 3, "color": "#A0785A", "describe": "Medium fine" },
-        { "value": 4, "color": "#7B3F00", "describe": "Fine" },
-        { "value": 6, "color": "#4A5C2F", "describe": "Organic" }
-      ]
+        {
+          "value": 1,
+          "color": "#F5DEB3",
+          "describe": "Coarse"
+        },
+        {
+          "value": 2,
+          "color": "#C8A96E",
+          "describe": "Medium"
+        },
+        {
+          "value": 3,
+          "color": "#A0785A",
+          "describe": "Medium fine"
+        },
+        {
+          "value": 4,
+          "color": "#7B3F00",
+          "describe": "Fine"
+        },
+        {
+          "value": 6,
+          "color": "#4A5C2F",
+          "describe": "Organic"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "static"
     },
     {
       "key": "type_of_high_vegetation",
       "label": "高植被类型",
       "unit": "discrete",
       "colorRange": [
-        { "value": 3, "color": "#228B22", "describe": "Evergreen needleleaf trees" },
-        { "value": 4, "color": "#90EE90", "describe": "Deciduous needleleaf trees" },
-        { "value": 5, "color": "#D2691E", "describe": "Deciduous broadleaf trees" },
-        { "value": 6, "color": "#006400", "describe": "Evergreen broadleaf trees" },
-        { "value": 18, "color": "#6B8E23", "describe": "Mixed forest/woodland" },
-        { "value": 19, "color": "#9ACD32", "describe": "Interrupted forest" }
-      ]
+        {
+          "value": 3,
+          "color": "#228B22",
+          "describe": "Evergreen needleleaf trees"
+        },
+        {
+          "value": 4,
+          "color": "#90EE90",
+          "describe": "Deciduous needleleaf trees"
+        },
+        {
+          "value": 5,
+          "color": "#D2691E",
+          "describe": "Deciduous broadleaf trees"
+        },
+        {
+          "value": 6,
+          "color": "#006400",
+          "describe": "Evergreen broadleaf trees"
+        },
+        {
+          "value": 18,
+          "color": "#6B8E23",
+          "describe": "Mixed forest/woodland"
+        },
+        {
+          "value": 19,
+          "color": "#9ACD32",
+          "describe": "Interrupted forest"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "static"
     },
     {
       "key": "type_of_low_vegetation",
       "label": "低植被类型",
       "unit": "discrete",
       "colorRange": [
-        { "value": 1, "color": "#FFD700", "describe": "Crops, Mixed farming" },
-        { "value": 2, "color": "#90EE90", "describe": "Grass" },
-        { "value": 7, "color": "#8B4513", "describe": "Tall grass" },
-        { "value": 9, "color": "#8B7355", "describe": "Tundra" },
-        { "value": 10, "color": "#DAA520", "describe": "Irrigated crops" },
-        { "value": 11, "color": "#F4A460", "describe": "Semidesert" },
-        { "value": 13, "color": "#006666", "describe": "Bogs and marshes" },
-        { "value": 16, "color": "#355E3B", "describe": "Evergreen shrubs" },
-        { "value": 17, "color": "#CC5500", "describe": "Deciduous shrubs" },
-        { "value": 20, "color": "#4682B4", "describe": "Water and land mixtures" }
-      ]
+        {
+          "value": 1,
+          "color": "#FFD700",
+          "describe": "Crops, Mixed farming"
+        },
+        {
+          "value": 2,
+          "color": "#90EE90",
+          "describe": "Grass"
+        },
+        {
+          "value": 7,
+          "color": "#8B4513",
+          "describe": "Tall grass"
+        },
+        {
+          "value": 9,
+          "color": "#8B7355",
+          "describe": "Tundra"
+        },
+        {
+          "value": 10,
+          "color": "#DAA520",
+          "describe": "Irrigated crops"
+        },
+        {
+          "value": 11,
+          "color": "#F4A460",
+          "describe": "Semidesert"
+        },
+        {
+          "value": 13,
+          "color": "#006666",
+          "describe": "Bogs and marshes"
+        },
+        {
+          "value": 16,
+          "color": "#355E3B",
+          "describe": "Evergreen shrubs"
+        },
+        {
+          "value": 17,
+          "color": "#CC5500",
+          "describe": "Deciduous shrubs"
+        },
+        {
+          "value": 20,
+          "color": "#4682B4",
+          "describe": "Water and land mixtures"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "static"
     },
     {
       "key": "PM10",
       "label": "PM10",
       "unit": "μg/m³",
       "colorRange": [
-        { "value": 0, "color": "#3D82D4" },
-        { "value": 20, "color": "#C8DDF6" },
-        { "value": 40, "color": "#EDE787" },
-        { "value": 60, "color": "#E8DC19" },
-        { "value": 80, "color": "#EAB939" },
-        { "value": 100, "color": "#E98F43" },
-        { "value": 120, "color": "#E15E5D" },
-        { "value": 160, "color": "#A31B56" },
-        { "value": 200, "color": "#721638" },
-        { "value": 300, "color": "#2B0001" }
-      ]
+        {
+          "value": 0,
+          "color": "#3D82D4"
+        },
+        {
+          "value": 20,
+          "color": "#C8DDF6"
+        },
+        {
+          "value": 40,
+          "color": "#EDE787"
+        },
+        {
+          "value": 60,
+          "color": "#E8DC19"
+        },
+        {
+          "value": 80,
+          "color": "#EAB939"
+        },
+        {
+          "value": 100,
+          "color": "#E98F43"
+        },
+        {
+          "value": 120,
+          "color": "#E15E5D"
+        },
+        {
+          "value": 160,
+          "color": "#A31B56"
+        },
+        {
+          "value": 200,
+          "color": "#721638"
+        },
+        {
+          "value": 300,
+          "color": "#2B0001"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 73,
+        "east": 135,
+        "south": 33,
+        "north": 53
+      },
+      "updateCycle": "hour"
+    },
+    {
+      "key": "HSDK_PM10",
+      "label": "浑善达克PM10",
+      "unit": "μg/m³",
+      "colorRange": [
+        {
+          "value": 0,
+          "color": "#3D82D4"
+        },
+        {
+          "value": 20,
+          "color": "#C8DDF6"
+        },
+        {
+          "value": 40,
+          "color": "#EDE787"
+        },
+        {
+          "value": 60,
+          "color": "#E8DC19"
+        },
+        {
+          "value": 80,
+          "color": "#EAB939"
+        },
+        {
+          "value": 100,
+          "color": "#E98F43"
+        },
+        {
+          "value": 120,
+          "color": "#E15E5D"
+        },
+        {
+          "value": 160,
+          "color": "#A31B56"
+        },
+        {
+          "value": 200,
+          "color": "#721638"
+        },
+        {
+          "value": 300,
+          "color": "#2B0001"
+        }
+      ],
+      "overlayType": "png",
+      "bounds": {
+        "west": 110.33,
+        "east": 125.33,
+        "south": 36.93,
+        "north": 48.93
+      },
+      "updateCycle": "day"
     }
   ]
 }

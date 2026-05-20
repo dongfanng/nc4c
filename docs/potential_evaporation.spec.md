@@ -16,50 +16,72 @@
 
 ## 数据分析
 
+### 数据结构
+
 ```
 <xarray.Dataset>
-  Dimensions:     (valid_time=168, latitude=201, longitude=621)
-  Variables:
-    float32 pev(valid_time, latitude, longitude)
-        units: m
-        long_name: Potential evaporation
-        GRIB_missingValue: 3.4028234663852886e+38
-  Attributes:
-    GRIB_latitudeOfFirstGridPointInDegrees = 53.0
-    GRIB_latitudeOfLastGridPointInDegrees = 33.0
-    GRIB_longitudeOfFirstGridPointInDegrees = 73.0
-    GRIB_longitudeOfLastGridPointInDegrees = 135.0
+Dimensions:     (valid_time: 168, latitude: 201, longitude: 621)
+Variables:
+    pev         (valid_time, latitude, longitude) float32
+Attributes:
+    GRIB_name:  Potential evaporation
+    GRIB_units: m
 </xarray>
+```
 
-# 数据范围:
-# 原始数据 (m): -0.0521 ~ 0.00077
-# 转换后 (mm): -52.1 ~ 0.77
-# 负值比例: 90.5% (ECMWF 惯例：负值=蒸发，正值=凝结)
+### 数据范围
 
-### 统计分布
+| 项目 | 值 | 说明 |
+|------|-----|------|
+| 原始数据范围 | -0.052059 ~ 0.000769 | 单位：m |
+| 转换后范围 | -52.059 ~ 0.769 | 单位：mm |
+| 负值比例 | 98.45% | ECMWF 惯例：负值=蒸发，正值=凝结 |
 
-| 统计量 | 值 (mm) |
-|--------|---------|
-| Mean | -3.050 |
-| Median | -2.224 |
-| P25 | -3.811 |
-| P75 | -0.752 |
-| P90 | -0.099 |
-| P95 | -0.016 |
+### 统计量
 
-- **1.29%** 的数据在 `|value| < 0.001` 范围内
+| 统计量 | m | mm |
+|--------|---|-----|
+| Min | -0.052059 | -52.059 |
+| Max | 0.000769 | 0.769 |
+| Mean | -0.003050 | -3.050 |
+| Median | -0.002224 | -2.224 |
+| Std | 0.003656 | 3.656 |
+
+### 百分位数
+
+| 百分位 | m | mm |
+|--------|---|-----|
+| P1 | -0.019659 | -19.659 |
+| P5 | -0.009770 | -9.770 |
+| P10 | -0.006144 | -6.144 |
+| P25 | -0.003811 | -3.811 |
+| P50 | -0.002224 | -2.224 |
+| P75 | -0.000752 | -0.752 |
+| P90 | -0.000099 | -0.099 |
+| P95 | -0.000016 | -0.016 |
+| P99 | 0.000001 | 0.001 |
+
+### 数值分布
+
+| 范围 | 占比 |
+|------|------|
+| value < 0 | 98.45% |
+| value = 0 | ~1.54% |
+| value > 0 | ~0.01% |
+| \|value\| < 0.001 | 28.71% |
 
 ## 可视化
 
 - **色图**: 自定义渐变（棕=蒸发 → 白=0 → 青=凝结）
-- **数值范围**: -6 ~ 0.8 mm
+- **数值范围**: -52 ~ 0.8 mm（基于数据范围，实际最小值 -52.059 mm，最大值 0.769 mm）
 - **颜色映射**:
 
 | 数值 (mm) | HEX | 含义 |
 |-----------|-----|------|
-| -6 | #8c510a | 强蒸发 |
-| -2 | #d8b365 | 中等蒸发 |
-| -0.1 | #f6e8c3 | 弱蒸发 |
+| -52 | #5D3A1A | 极强蒸发 |
+| -30 | #8c510a | 强蒸发 |
+| -10 | #d8b365 | 中等蒸发 |
+| -1 | #f6e8c3 | 弱蒸发 |
 | 0 | #00000000 | 零（透明） |
 | 0.001 | #c7eae5 | 弱凝结 |
 | 0.8 | #35978f | 强凝结 |
