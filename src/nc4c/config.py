@@ -154,6 +154,22 @@ WIND = {
     # u: 东西风分量 (m/s)，v: 南北风分量 (m/s)
 }
 
+WIND_STREAMLINES = {
+    "name": "wind_streamlines",
+    "data_files": [
+        str(
+            DATA_DIR
+            / "raw_met_data"
+            / "10m_u_component_of_wind 10m_v_component_of_wind.nc"
+        )
+    ],
+    "output_dir": "output/wind_streamlines",
+    "line_color": (0 / 255, 255 / 255, 255 / 255),
+    "density": 6,
+    "line_width": 1.5,
+    "maxlength": 1.0,
+}
+
 LATENT_HEAT_FLUX = {
     "name": "surface_latent_heat_flux",
     "data_files": [
@@ -391,6 +407,7 @@ ALL_CONFIGS = {
     "vegetation_transpiration": VEGETATION_TRANSPIRATION,
     "total_evaporation": TOTAL_EVAPORATION,
     "wind": WIND,
+    "wind_streamlines": WIND_STREAMLINES,
     "latent_heat_flux": LATENT_HEAT_FLUX,
     "net_solar_radiation": NET_SOLAR_RADIATION,
     "sensible_heat_flux": SENSIBLE_HEAT_FLUX,

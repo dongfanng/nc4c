@@ -29,6 +29,7 @@ from nc4c.processors.vegetation_transpiration_processor import (
     VegetationTranspirationProcessor,
 )
 from nc4c.processors.wind_processor import WindProcessor
+from nc4c.processors.wind_streamlines_processor import WindStreamlinesProcessor
 
 __all__ = [
     "EvaporationCanopyProcessor",
@@ -50,4 +51,5 @@ __all__ = [
     "TotalPrecipitationProcessor",
     "VegetationTranspirationProcessor",
     "WindProcessor",
+    "WindStreamlinesProcessor",
 ]
