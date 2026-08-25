@@ -172,17 +172,16 @@ class WindProcessor(BaseDataProcessor):
                 [float(f"{v:.2f}") for v in v_slice.flatten()]
             )
 
-            # 生成时间戳字符串（用于 JSON 内容）
+            # 生成文件名（UTC 时间）
             output_file = format_timestamp_filename(
                 output_path, timestamp, suffix="json"
             )
-            ts_str = output_file.stem
-            date_part, time_part = ts_str.split("T")
-            year, month, day = date_part.split("-")
-            hour, minute, second = time_part.replace("Z", "").split("_")
-            time_str = f"{year}.{month}.{day} {hour}:{minute}:{second}"
 
-            # 当前逐小数据单独切分为文件,refTime 为当前时间,UTC 时间
+            # time 字段为北京时间 (UTC+8)
+            beijing_time = pd.Timestamp(timestamp) + pd.Timedelta(hours=8)
+            time_str = beijing_time.strftime("%Y.%m.%d %H:%M:%S")
+
+            # refTime 字段为当前时刻,UTC 时间
             ref_time = pd.Timestamp(timestamp).strftime("%Y-%m-%dT%H:%M:%S") + "Z"
 
             # TODO 当前逐小数据单独切分为文件,forecastTime 为 1 小时
