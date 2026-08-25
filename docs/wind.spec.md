@@ -125,19 +125,19 @@ U/V 数组 shape 为 `(201, 621)`，展平时采用 **行优先（C风格）** �
 ```
 <ROOT_OUTPUT_DIR>/
 └── wind/
-    ├── 2023-03-18_00-00-00.json
-    ├── 2023-03-18_01-00-00.json
+    ├── 2023-03-18T00_00_00Z.json
+    ├── 2023-03-18T01_00_00Z.json
     ├── ...
-    └── 2023-03-24_23-00-00.json
+    └── 2023-03-24T23_00_00Z.json
 ```
 
 ### 4.2 文件命名规则
 
 | 规则 | 说明 |
 |------|------|
-| **格式** | `YYYY-MM-DD_HH-MM-SS.json` |
-| **时区** | UTC+8（东八区） |
-| **分隔符** | 日期用 `-`，时间用 `-` |
+| **格式** | `YYYY-MM-DDTHH_MM_SSZ.json` |
+| **时区** | UTC（协调世界时） |
+| **分隔符** | 日期用 `-`，日期与时间用 `T` 连接，时间用 `_`，末尾 `Z` 标记 UTC |
 
 ### 4.3 JSON 结构
 
@@ -151,9 +151,9 @@ U/V 数组 shape 为 `(201, 621)`，展平时采用 **行优先（C风格）** �
     "lo1": 73.0,
     "nx": 621,
     "ny": 201,
-    "refTime": "2023-03-18T00:00:00.000Z"
+    "refTime": "2023-03-18T00:00:00Z"
   },
-  "time": "2023.03.18 08:00:00",
+  "time": "2023.03.18 00:00:00",
   "longitude": [73.0, 73.1, 73.2, ..., 135.0],
   "latitude": [53.0, 52.9, 52.8, ..., 33.0],
   "u": [4.95, 4.62, 4.28, ..., null],
@@ -173,7 +173,7 @@ U/V 数组 shape 为 `(201, 621)`，展平时采用 **行优先（C风格）** �
 | `header.nx` | 经度方向网格点数 | `GRIB_Nx` | `number` |
 | `header.ny` | 纬度方向网格点数 | `GRIB_Ny` | `number` |
 | `header.refTime` | 参考时间（UTC） | 当前时刻 | `string` (ISO 8601) |
-| `time` | 数据有效时间（北京时区） | - | `string` ("YYYY.MM.DD HH:MM:SS") |
+| `time` | 数据有效时间（UTC） | - | `string` ("YYYY.MM.DD HH:MM:SS") |
 | `longitude` | 经度数组（从西到东递增） | `GRIB_iScansNegatively = 0` | `array<number>` |
 | `latitude` | 纬度数组（从北到南递减） | `GRIB_jScansPositively = 0` | `array<number>` |
 | `u` | U 风速分量（东西方向） | - | `array<number | null>` |
@@ -218,20 +218,20 @@ def _apply_grib_scan_order(data: xr.DataArray) -> xr.DataArray:
 ### 5.2 时间戳处理
 
 ```python
-# 生成文件名（UTC+8）
+# 生成文件名（UTC）
 output_file = format_timestamp_filename(output_path, timestamp, suffix="json")
-# 输出：output/wind/2023-03-18_08-00-00.json
+# 输出：output/wind/2023-03-18T00_00_00Z.json
 
-# time 字段（北京时区）
-ts_str = output_file.stem  # "2023-03-18_08-00-00"
-date_part, time_part = ts_str.split("_")
+# time 字段（UTC）
+ts_str = output_file.stem  # "2023-03-18T00_00_00Z"
+date_part, time_part = ts_str.split("T")
 year, month, day = date_part.split("-")
-hour, minute, second = time_part.split("-")
-time_str = f"{year}.{month}.{day} {hour}:{minute}:{second}"  # "2023.03.18 08:00:00"
+hour, minute, second = time_part.replace("Z", "").split("_")
+time_str = f"{year}.{month}.{day} {hour}:{minute}:{second}"  # "2023.03.18 00:00:00"
 
 # refTime 字段（UTC ISO 格式）
-ref_time = pd.Timestamp(timestamp).strftime("%Y-%m-%dT%H:%M:%S") + ".000Z"
-# 输出："2023-03-18T00:00:00.000Z"
+ref_time = pd.Timestamp(timestamp).strftime("%Y-%m-%dT%H:%M:%S") + "Z"
+# 输出："2023-03-18T00:00:00Z"
 ```
 
 ### 5.3 U/V 数据展平
@@ -276,4 +276,4 @@ class WindConfig:
 
 1. **浮点精度**：IEEE 754 浮点数无法精确表示某些小数（如 `1.58`），使用 `float(f"{v:.2f}")` 格式化确保输出为 2 位小数。
 2. **JSON 尾随零**：JSON 格式不保留尾随零，`1.50` 会显示为 `1.5`，这是 JSON 规范行为，不影响实际精度。
-3. **refTime 毫秒**：当前实现固定为 `.000`（毫秒部分），因为原始数据为逐小时分辨率。
+3. **文件名冒号**：Windows 文件名不允许冒号（`:`），因此文件名中时间分隔符使用 `_`（如 `2023-03-18T00_00_00Z.json`），而 JSON 内容中 `refTime` 使用标准 ISO 8601 冒号格式。

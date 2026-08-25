@@ -164,7 +164,7 @@ WIND_STREAMLINES = {
         )
     ],
     "output_dir": "output/wind_streamlines",
-    "line_color": (0 / 255, 255 / 255, 255 / 255),
+    "line_color": (255 / 255, 255 / 255, 255 / 255),
     "density": 6,
     "line_width": 1.5,
     "maxlength": 1.0,
